@@ -1,4 +1,4 @@
-# 🚀 Vynlo Taste - Sistema Completo de Delivery Empresarial
+# 🚀 Vynlo Taste - Sistema Completo de GESTÃO PARA RESTAURANTES
 
 Sistema empresarial completo para gestão de delivery e restaurantes, desenvolvido com tecnologias modernas e arquitetura escalável.
 
