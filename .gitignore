@@ -1,0 +1,79 @@
+# Arquivos de ambiente e credenciais
+.env
+.env.local
+.env.production
+.env.staging
+*.env
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Dependências
+node_modules/
+target/
+.m2/
+
+# IDEs
+.vscode/
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos temporários
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# Banco de dados local
+*.db
+*.sqlite
+*.sqlite3
+
+# Certificados e chaves
+*.pem
+*.key
+*.crt
+*.p12
+*.jks
+
+# Firebase
+firebase-service-account*.json
+firebase-adminsdk-*.json
+**/firebase-service-account*.json
+
+# AWS
+.aws/
+aws-config/
+
+# Backup
+*.backup
+*.bak
+
+# Build
+dist/
+build/
+out/
+.next/
+
+# Cache
+.cache/
+*.cache
+
+# Uploads
+uploads/
+files/
+
+# Performance tests
+performance-tests/target/
+gatling-results/
+
+# Monitoring logs
+monitoring/logs/
