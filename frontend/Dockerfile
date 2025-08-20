@@ -1,38 +1,26 @@
 FROM node:18-alpine AS builder
 
-# Instalar dependências necessárias
 RUN apk add --no-cache libc6-compat
-
-# Criar diretório da aplicação
 WORKDIR /app
 
-# Copiar arquivos de dependências
 COPY package*.json ./
+# Instala com devDependencies para compilar TypeScript/Next
+RUN npm ci
 
-# Instalar dependências
-RUN npm ci --only=production
-
-# Copiar código fonte
 COPY . .
-
-# Build da aplicação
 RUN npm run build
+# Remove devDependencies para imagem final menor
+RUN npm prune --omit=dev
 
-# Imagem de produção
-FROM nginx:alpine
+FROM node:18-alpine
+WORKDIR /app
+ENV NODE_ENV=production
 
-# Copiar arquivos buildados
-COPY --from=builder /app/out /usr/share/nginx/html
+COPY --from=builder /app .
 
-# Copiar configuração do nginx
-COPY nginx.conf /etc/nginx/nginx.conf
+EXPOSE 3000
 
-# Expor porta
-EXPOSE 80
-
-# Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
-    CMD curl -f http://localhost/ || exit 1
+    CMD wget -qO- http://localhost:3000/ || exit 1
 
-# Executar nginx
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["npm", "run", "start"]
