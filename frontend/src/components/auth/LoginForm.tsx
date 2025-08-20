@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { Eye, EyeOff, Lock, Mail, TrendingUp, Users, Shield, Zap } from 'lucide-react';
@@ -12,7 +12,25 @@ export default function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
-  const { login } = useAuth();
+  const { login, user } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      // Fazer redirecionamento quando usuário estiver autenticado
+      user.getIdTokenResult().then((idTokenResult) => {
+        const claims = idTokenResult.claims;
+        if (claims.isSuperAdmin) {
+          router.push('/super-admin');
+        } else {
+          router.push('/dashboard');
+        }
+        setLoading(false);
+      }).catch(() => {
+        router.push('/dashboard');
+        setLoading(false);
+      });
+    }
+  }, [user, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,11 +39,10 @@ export default function LoginForm() {
 
     try {
       await login(email, password);
-      router.push('/dashboard');
+      // O redirecionamento será feito pelo useEffect quando o user for atualizado
     } catch (error: any) {
       setError('Email ou senha incorretos');
       console.error('Erro no login:', error);
-    } finally {
       setLoading(false);
     }
   };
@@ -165,14 +182,14 @@ export default function LoginForm() {
                 Contas de Teste:
               </p>
               <div className="space-y-2">
-                <div className="bg-blue-800/40 rounded-lg p-3 text-center border border-blue-500/30">
-                  <p className="text-xs text-blue-100">
-                    <strong>Admin:</strong> admin@vynlotaste.com | <strong>Senha:</strong> password
+                <div className="bg-purple-800/40 rounded-lg p-3 text-center border border-purple-500/30">
+                  <p className="text-xs text-purple-100">
+                    <strong>👑 Super Admin:</strong> superadmin@vynlotaste.com | <strong>Senha:</strong> SuperVynlo2024!@#
                   </p>
                 </div>
-                <div className="bg-green-800/40 rounded-lg p-3 text-center border border-green-500/30">
-                  <p className="text-xs text-green-100">
-                    <strong>Gerente:</strong> gerente@vynlotaste.com | <strong>Senha:</strong> password
+                <div className="bg-blue-800/40 rounded-lg p-3 text-center border border-blue-500/30">
+                  <p className="text-xs text-blue-100">
+                    <strong>Admin:</strong> admin@vynlotaste.com | <strong>Senha:</strong> AdminVynlo2024!
                   </p>
                 </div>
               </div>

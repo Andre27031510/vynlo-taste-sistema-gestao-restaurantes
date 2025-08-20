@@ -1,16 +1,16 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Vynlo Taste - Infraestrutura de Produção'
+Description: 'Vynlo Taste - Infraestrutura Simplificada'
 
 Parameters:
   Environment:
     Type: String
     Default: prod
-    AllowedValues: [dev, staging, prod]
   
-  InstanceType:
+  DBPassword:
     Type: String
-    Default: t3.medium
-    AllowedValues: [t3.small, t3.medium, t3.large]
+    NoEcho: true
+    Default: VynloTaste2024!
+    MinLength: 8
 
 Resources:
   # VPC e Networking
@@ -196,7 +196,7 @@ Resources:
       Engine: postgres
       EngineVersion: '15.7'
       MasterUsername: vynlo_user
-      MasterUserPassword: '{{resolve:secretsmanager:vynlo-taste-db-password:SecretString:password}}'
+      MasterUserPassword: !Ref DBPassword
       AllocatedStorage: 20
       StorageType: gp2
       StorageEncrypted: true
@@ -206,32 +206,10 @@ Resources:
       BackupRetentionPeriod: 7
       MultiAZ: false
       PubliclyAccessible: false
-      DeletionProtection: true
+      DeletionProtection: false
       Tags:
         - Key: Name
           Value: !Sub 'vynlo-taste-db-${Environment}'
-
-  # ElastiCache Redis
-  CacheSubnetGroup:
-    Type: AWS::ElastiCache::SubnetGroup
-    Properties:
-      Description: Subnet group for ElastiCache
-      SubnetIds:
-        - !Ref PrivateSubnet1
-        - !Ref PrivateSubnet2
-
-  CacheCluster:
-    Type: AWS::ElastiCache::CacheCluster
-    Properties:
-      CacheNodeType: cache.t3.micro
-      Engine: redis
-      NumCacheNodes: 1
-      VpcSecurityGroupIds:
-        - !Ref AppSecurityGroup
-      CacheSubnetGroupName: !Ref CacheSubnetGroup
-      Tags:
-        - Key: Name
-          Value: !Sub 'vynlo-taste-redis-${Environment}'
 
   # S3 Bucket para Frontend
   S3Bucket:
@@ -295,12 +273,6 @@ Outputs:
     Value: !GetAtt Database.Endpoint.Address
     Export:
       Name: !Sub '${AWS::StackName}-DB-Endpoint'
-
-  RedisEndpoint:
-    Description: ElastiCache Redis Endpoint
-    Value: !GetAtt CacheCluster.RedisEndpoint.Address
-    Export:
-      Name: !Sub '${AWS::StackName}-Redis-Endpoint'
 
   S3BucketName:
     Description: S3 Bucket Name

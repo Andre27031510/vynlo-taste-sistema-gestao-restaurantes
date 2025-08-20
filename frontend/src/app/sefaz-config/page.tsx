@@ -127,10 +127,14 @@ export default function SefazConfigPage() {
         return
       }
 
-      const webservicesStatus = {
-        nfe: 'checking' as const,
-        nfce: 'checking' as const,
-        nfse: 'checking' as const
+      let webservicesStatus: {
+        nfe: 'online' | 'offline' | 'error' | 'checking' | 'unknown'
+        nfce: 'online' | 'offline' | 'error' | 'checking' | 'unknown'
+        nfse: 'online' | 'offline' | 'error' | 'checking' | 'unknown'
+      } = {
+        nfe: 'checking',
+        nfce: 'checking',
+        nfse: 'checking'
       }
       
       setSefazStatus(prev => ({

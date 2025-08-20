@@ -222,7 +222,7 @@ export default function CashFlowManagement() {
   const [selectedReconciliation, setSelectedReconciliation] = useState<BankReconciliation | null>(null)
 
   // Dados simulados para demonstração
-  const [recentTransactions] = useState<FinancialTransaction[]>([
+  const [recentTransactions, setRecentTransactions] = useState<FinancialTransaction[]>([
     {
       id: '1',
       type: 'INCOME',
@@ -264,7 +264,7 @@ export default function CashFlowManagement() {
     }
   ])
   
-  const [accountsPayable] = useState<FinancialAccount[]>([
+  const [accountsPayable, setAccountsPayable] = useState<FinancialAccount[]>([
     {
       id: '1',
       type: 'PAYABLE',
@@ -315,7 +315,7 @@ export default function CashFlowManagement() {
     }
   ])
   
-  const [accountsReceivable] = useState<FinancialAccount[]>([
+  const [accountsReceivable, setAccountsReceivable] = useState<FinancialAccount[]>([
     {
       id: '1',
       type: 'RECEIVABLE',

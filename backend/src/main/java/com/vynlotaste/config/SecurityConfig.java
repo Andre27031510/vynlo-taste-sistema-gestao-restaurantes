@@ -29,7 +29,7 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .headers(headers -> headers
                 .frameOptions(frameOptions -> frameOptions.deny())
-                .contentTypeOptions(contentTypeOptions -> contentTypeOptions.and())
+                .contentTypeOptions(contentTypeOptions -> {})
                 .httpStrictTransportSecurity(hsts -> hsts
                     .maxAgeInSeconds(31536000)
                     .includeSubDomains(true)
@@ -48,11 +48,10 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // Temporariamente comentado para teste
-    // @Bean
-    // public FirebaseAuthenticationFilter firebaseAuthenticationFilter(FirebaseAuth firebaseAuth, UserRepository userRepository) {
-    //     return new FirebaseAuthenticationFilter(firebaseAuth, userRepository);
-    // }
+    @Bean
+    public FirebaseAuthenticationFilter firebaseAuthenticationFilter(FirebaseAuth firebaseAuth, UserRepository userRepository) {
+        return new FirebaseAuthenticationFilter(firebaseAuth, userRepository);
+    }
 
     @Bean
     public RateLimitFilter rateLimitFilter() {

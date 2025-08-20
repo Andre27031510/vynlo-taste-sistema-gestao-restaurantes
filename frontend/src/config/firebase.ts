@@ -4,12 +4,12 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyApXH8Qx1n6B82sZyAtwJ6NNxJfQlEz36Q",
-  authDomain: "vynlo-sistema.firebaseapp.com",
-  projectId: "vynlo-sistema",
-  storageBucket: "vynlo-sistema.firebasestorage.app",
-  messagingSenderId: "348634037274",
-  appId: "1:348634037274:web:169fa8a9c3d85850cda5a3"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
 };
 
 const app = initializeApp(firebaseConfig);

@@ -1,256 +1,184 @@
-# 🚀 Vynlo Taste - Sistema Completo de Delivery Empresarial
+# 🚀 Vynlo Taste - Sistema Empresarial de Delivery
 
-Sistema empresarial completo para gestão de delivery e restaurantes, desenvolvido com tecnologias modernas e arquitetura escalável.
+## 📋 Visão Geral
 
-## ✨ **Funcionalidades Implementadas**
+O **Vynlo Taste** é um sistema empresarial completo para gestão de delivery e restaurantes, desenvolvido com tecnologia de ponta e arquitetura robusta para uso em produção.
 
-### 🔐 **Autenticação e Segurança**
-- ✅ Firebase Authentication (Google, Email/Senha)
-- ✅ JWT Tokens para API
-- ✅ Controle de acesso baseado em roles (RBAC)
-- ✅ Proteção de rotas no frontend e backend
-- ✅ Criptografia de senhas com BCrypt
+## 🏗️ Arquitetura do Sistema
 
-### 🗄️ **Banco de Dados**
-- ✅ PostgreSQL com schema completo
-- ✅ Migrações Flyway implementadas
-- ✅ Dados iniciais (seeds) para desenvolvimento
-- ✅ Índices otimizados para performance
-- ✅ Triggers para auditoria automática
+### **Frontend (Next.js 15 + React 18)**
+- **Framework**: Next.js 15.2.4 com App Router
+- **UI**: React 18.3.1 + TypeScript 5.6.3
+- **Styling**: Tailwind CSS 3.4.3 + Framer Motion 11
+- **Autenticação**: Firebase Auth
+- **Estado**: Context API + Hooks personalizados
 
-### 📱 **Frontend (Next.js + React)**
-- ✅ Autenticação com Firebase
-- ✅ Dashboard administrativo
-- ✅ Componentes reutilizáveis
-- ✅ Proteção de rotas
-- ✅ Interface responsiva com Tailwind CSS
-- ✅ Context API para gerenciamento de estado
+### **Backend (Spring Boot 3.2 + Java 17)**
+- **Framework**: Spring Boot 3.2.0
+- **Java**: JDK 17 LTS
+- **Banco**: PostgreSQL 15 + Redis 7
+- **Segurança**: Spring Security 6 + JWT + Firebase Admin
+- **Cache**: Redis + Spring Cache
+- **Métricas**: Micrometer + Prometheus
+- **Monitoramento**: Spring Actuator
 
-### 🔧 **Backend (Spring Boot + Java)**
-- ✅ API REST completa
-- ✅ Integração Firebase Admin SDK
-- ✅ Controllers para Auth, Products, Orders
-- ✅ Services e Repositories implementados
-- ✅ Documentação Swagger/OpenAPI
-- ✅ Configurações de ambiente por perfil
+### **Infraestrutura**
+- **Containerização**: Docker + Docker Compose
+- **Cloud**: AWS (EC2, RDS, ElastiCache, S3)
+- **CI/CD**: Pipeline automatizado
+- **Monitoramento**: CloudWatch + X-Ray
 
-### 📊 **Gestão de Produtos**
-- ✅ CRUD completo de produtos
-- ✅ Categorização e organização
-- ✅ Controle de estoque
-- ✅ Busca e filtros avançados
-- ✅ Upload de imagens
-
-### 🛒 **Sistema de Pedidos**
-- ✅ Criação e gestão de pedidos
-- ✅ Diferentes tipos (Delivery, Pickup, Dine-in)
-- ✅ Cálculo automático de valores
-- ✅ Histórico completo de pedidos
-
-## 🛠️ **Stack Tecnológica**
-
-### **Backend**
-- **Java 17** - Linguagem principal
-- **Spring Boot 3.2** - Framework web
-- **Spring Security 6** - Segurança
-- **Spring Data JPA** - Persistência
-- **PostgreSQL 15** - Banco de dados
-- **Firebase Admin SDK** - Autenticação
-- **JWT** - Tokens de acesso
-- **Flyway** - Migrações de banco
-- **Maven** - Gerenciamento de dependências
-
-### **Frontend**
-- **Next.js 14** - Framework React
-- **React 18** - Biblioteca UI
-- **TypeScript** - Tipagem estática
-- **Tailwind CSS** - Estilização
-- **Firebase SDK** - Autenticação
-- **Context API** - Gerenciamento de estado
-
-### **Banco de Dados**
-- **PostgreSQL** - Banco principal
-- **Redis** - Cache (configurado)
-- **Flyway** - Controle de versão do schema
-
-## 🚀 **Como Executar o Projeto**
+## 🚀 Início Rápido
 
 ### **Pré-requisitos**
-- Java 17+
-- Node.js 18+
-- PostgreSQL 14+
-- Maven 3.8+
-- Conta Firebase (para autenticação)
+- Node.js 18+ 
+- Java 17
+- Docker Desktop
+- PostgreSQL 15
+- Redis 7
 
-### **1. Configuração do Banco de Dados**
-```sql
--- Criar banco PostgreSQL
-CREATE DATABASE vynlo_taste;
-CREATE USER vynlo_user WITH PASSWORD 'vynlo_pass';
-GRANT ALL PRIVILEGES ON DATABASE vynlo_taste TO vynlo_user;
+### **1. Clone o Repositório**
+```bash
+git clone https://github.com/seu-usuario/vynlo-taste.git
+cd vynlo-taste
 ```
 
-### **2. Configuração do Firebase**
-1. Crie um projeto no [Firebase Console](https://console.firebase.google.com)
-2. Ative Authentication (Email/Senha e Google)
-3. Baixe o arquivo de configuração
-4. Configure as variáveis de ambiente
-
-### **3. Backend (Spring Boot)**
+### **2. Backend**
 ```bash
 cd backend
-
-# Configurar variáveis de ambiente no .env
-cp .env.example .env
-# Editar .env com suas configurações
-
-# Executar migrações
-mvn flyway:migrate
-
-# Iniciar aplicação
+mvn clean install
 mvn spring-boot:run
 ```
 
-### **4. Frontend (Next.js)**
+### **3. Frontend**
 ```bash
 cd frontend
-
-# Instalar dependências
 npm install
-
-# Configurar variáveis de ambiente
-cp .env.local.example .env.local
-# Editar .env.local com suas configurações Firebase
-
-# Iniciar aplicação
 npm run dev
 ```
 
-### **5. Acessar o Sistema**
-- **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:8080/api
-- **Swagger UI**: http://localhost:8080/api/swagger-ui.html
+### **4. Banco de Dados**
+```bash
+# PostgreSQL
+docker run -d --name postgres-vynlo \
+  -e POSTGRES_DB=vynlo_taste \
+  -e POSTGRES_USER=vynlo_user \
+  -e POSTGRES_PASSWORD=vynlo_pass \
+  -p 5432:5432 postgres:15
 
-## 📋 **Usuários Padrão**
-
-### **Administrador**
-- **Email**: admin@vynlotaste.com
-- **Senha**: password
-- **Permissões**: Acesso total ao sistema
-
-### **Gerente**
-- **Email**: gerente@vynlotaste.com
-- **Senha**: password
-- **Permissões**: Gestão de produtos e pedidos
-
-### **Cliente**
-- **Email**: cliente@exemplo.com
-- **Senha**: password
-- **Permissões**: Fazer pedidos
-
-## 🔧 **Configurações de Ambiente**
-
-### **Backend (.env)**
-```env
-# Database
-DB_USER=postgres
-DB_HOST=localhost
-DB_NAME=vynlo_taste
-DB_PASSWORD=sua_senha
-DB_PORT=5432
-
-# Firebase
-FIREBASE_PROJECT_ID=seu_projeto_id
-FIREBASE_PRIVATE_KEY=sua_chave_privada
-FIREBASE_CLIENT_EMAIL=seu_email_cliente
-
-# JWT
-JWT_SECRET=sua_chave_secreta_jwt
-JWT_EXPIRATION=86400000
+# Redis
+docker run -d --name redis-vynlo \
+  -p 6379:6379 redis:7-alpine
 ```
 
-### **Frontend (.env.local)**
-```env
-# Firebase
-NEXT_PUBLIC_FIREBASE_API_KEY=sua_api_key
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=seu_projeto.firebaseapp.com
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=seu_projeto_id
+## 📁 Estrutura do Projeto
 
-# API
-NEXT_PUBLIC_API_URL=http://localhost:8080/api/v1
+```
+vynlo-taste/
+├── frontend/                 # Next.js Frontend
+│   ├── src/
+│   │   ├── app/            # App Router
+│   │   ├── components/     # Componentes React
+│   │   ├── contexts/       # Context API
+│   │   ├── hooks/          # Hooks personalizados
+│   │   └── styles/         # CSS e Tailwind
+│   ├── public/             # Assets estáticos
+│   └── package.json        # Dependências Node.js
+├── backend/                 # Spring Boot Backend
+│   ├── src/
+│   │   ├── main/java/
+│   │   │   ├── config/     # Configurações Spring
+│   │   │   ├── controller/ # Controllers REST
+│   │   │   ├── service/    # Lógica de negócio
+│   │   │   ├── entity/     # Entidades JPA
+│   │   │   └── dto/        # Data Transfer Objects
+│   │   └── resources/      # Configurações
+│   ├── pom.xml             # Dependências Maven
+│   └── docker-compose.yml  # Docker local
+├── deploy/                  # Scripts de Deploy
+├── docs/                    # Documentação
+└── README.md               # Este arquivo
 ```
 
-## 📚 **Documentação da API**
+## 🔧 Funcionalidades Principais
 
-### **Endpoints Principais**
+### **Gestão de Pedidos**
+- Recebimento de pedidos (balcão, delivery, WhatsApp)
+- Status em tempo real
+- Integração com apps de delivery
+- Histórico completo
+
+### **Controle de Estoque**
+- Gestão de ingredientes
+- Alertas de estoque baixo
+- Controle de validade
+- Relatórios de consumo
+
+### **Gestão Financeira**
+- Fluxo de caixa
+- Controle de custos
+- Integração com pagamentos
+- Relatórios financeiros
+
+### **Gestão de Equipe**
+- Controle de acesso
+- Escalas de trabalho
+- Métricas de produtividade
+- Comunicação interna
+
+## 🚀 Deploy em Produção
+
+### **AWS**
+```bash
+# Deploy completo na AWS
+./deploy-aws.bat
 ```
-POST   /api/v1/auth/login          # Login com email/senha
-POST   /api/v1/auth/firebase       # Login com Firebase
-POST   /api/v1/auth/register       # Registro de usuário
-GET    /api/v1/products            # Listar produtos
-POST   /api/v1/products            # Criar produto
-GET    /api/v1/orders              # Listar pedidos
-POST   /api/v1/orders              # Criar pedido
+
+### **Docker**
+```bash
+# Deploy com Docker Compose
+docker-compose -f docker-compose.prod.yml up -d
 ```
 
-### **Swagger/OpenAPI**
-Acesse a documentação completa em: http://localhost:8080/api/swagger-ui.html
+## 📊 Monitoramento
 
-## 🧪 **Testes**
+- **Health Checks**: `/actuator/health`
+- **Métricas**: `/actuator/metrics`
+- **Prometheus**: `/actuator/prometheus`
+- **Logs**: Centralizados via CloudWatch
+
+## 🔒 Segurança
+
+- **Autenticação**: Firebase Auth + JWT
+- **Autorização**: RBAC (Role-Based Access Control)
+- **Criptografia**: SSL/TLS + Criptografia de dados
+- **Rate Limiting**: Proteção contra ataques
+- **Auditoria**: Logs de todas as operações
+
+## 🧪 Testes
 
 ### **Backend**
 ```bash
 cd backend
-mvn test
+mvn test                    # Testes unitários
+mvn verify                  # Testes de integração
 ```
 
 ### **Frontend**
 ```bash
 cd frontend
-npm test
+npm run lint               # Linting
+npm run build              # Build de produção
 ```
 
-## 📦 **Deploy**
+## 📈 Performance
 
-### **Docker**
-```bash
-# Backend
-cd backend
-docker build -t vynlo-taste-backend .
-docker run -p 8080:8080 vynlo-taste-backend
+- **Cache**: Redis para sessões e dados
+- **Lazy Loading**: Componentes carregados sob demanda
+- **PWA**: Progressive Web App
+- **SEO**: Otimizado para motores de busca
 
-# Frontend
-cd frontend
-docker build -t vynlo-taste-frontend .
-docker run -p 3000:3000 vynlo-taste-frontend
-```
-
-### **Docker Compose**
-```bash
-docker-compose up -d
-```
-
-## 🔄 **Próximas Implementações**
-
-### **Alta Prioridade**
-- [ ] Sistema de pagamentos (Stripe/PIX)
-- [ ] Notificações WhatsApp Business
-- [ ] Rastreamento de entregas em tempo real
-- [ ] Relatórios financeiros avançados
-
-### **Média Prioridade**
-- [ ] App mobile (React Native)
-- [ ] Integração com delivery apps
-- [ ] Sistema de fidelidade
-- [ ] Chat interno
-
-### **Baixa Prioridade**
-- [ ] IA para recomendações
-- [ ] Analytics avançados
-- [ ] Multi-tenancy
-- [ ] Internacionalização
-
-## 🤝 **Contribuição**
+## 🤝 Contribuição
 
 1. Fork o projeto
 2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
@@ -258,22 +186,29 @@ docker-compose up -d
 4. Push para a branch (`git push origin feature/AmazingFeature`)
 5. Abra um Pull Request
 
-## 📄 **Licença**
+## 📄 Licença
 
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para detalhes.
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
-## 📞 **Suporte**
+## 📞 Suporte
 
 - **Email**: suporte@vynlotaste.com
-- **Documentação**: [Wiki do Projeto](https://github.com/vynlotaste/wiki)
-- **Issues**: [GitHub Issues](https://github.com/vynlotaste/issues)
+- **Documentação**: [docs.vynlotaste.com](https://docs.vynlotaste.com)
+- **Issues**: [GitHub Issues](https://github.com/seu-usuario/vynlo-taste/issues)
+
+## 🎯 Roadmap
+
+- [x] **Fase 1**: Estrutura básica e autenticação
+- [x] **Fase 2**: Funcionalidades core do sistema
+- [x] **Fase 3**: Integração Firebase e segurança
+- [x] **Fase 4**: Configuração e testes de segurança
+- [x] **Fase 5**: Testes de integração e performance
+- [x] **Fase 6**: Testes de carga e otimização
+- [x] **Fase 7**: Deploy e implantação em produção
+- [ ] **Fase 8**: Monitoramento avançado e alertas
+- [ ] **Fase 9**: Escalabilidade e auto-scaling
+- [ ] **Fase 10**: Analytics e business intelligence
 
 ---
 
-## 🎯 **Status do Projeto**
-
-✅ **MVP Completo** - Sistema funcional com autenticação, produtos e pedidos  
-🔄 **Em Desenvolvimento** - Integrações e funcionalidades avançadas  
-📈 **Roadmap Definido** - Próximas funcionalidades planejadas  
-
-**🚀 Sistema de Delivery Empresarial Vynlo Taste - Pronto para Produção!** 🚀
+**Desenvolvido com ❤️ pela equipe Vynlo Taste**

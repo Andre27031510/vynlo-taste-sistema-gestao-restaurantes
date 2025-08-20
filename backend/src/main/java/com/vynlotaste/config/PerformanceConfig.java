@@ -28,6 +28,6 @@ public class PerformanceConfig implements WebMvcConfigurer {
     @Override
     public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
         configurer.setDefaultTimeout(30000);
-        configurer.setTaskExecutor(taskExecutor());
+        configurer.setTaskExecutor((ThreadPoolTaskExecutor) taskExecutor());
     }
 }
