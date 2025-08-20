@@ -127,12 +127,39 @@ export default function PaymentManagement() {
   const [reportProvider, setReportProvider] = useState('all')
   const [reportStatus, setReportStatus] = useState('all')
   const [isGeneratingReport, setIsGeneratingReport] = useState(false)
-  const [reportData, setReportData] = useState(null)
+  interface PaymentReportData {
+    period: string
+    startDate: string
+    endDate: string
+    provider: string
+    status: string
+    totalVolume: number
+    totalTransactions: number
+    approvalRate: number
+    averageTicket: number
+    growthRate: number
+    generatedAt: Date
+  }
+  const [reportData, setReportData] = useState<PaymentReportData | null>(null)
 
   // Estados para detalhes dos provedores
   const [showProviderDetails, setShowProviderDetails] = useState(false)
   const [selectedProvider, setSelectedProvider] = useState('')
-  const [providerDetails, setProviderDetails] = useState(null)
+  interface ProviderDetails {
+    name: string
+    totalVolume: number
+    totalTransactions: number
+    approvalRate: number
+    averageTicket: number
+    processingTime: number
+    errorRate: number
+    lastSync: Date
+    status: string
+    monthlyGrowth: number
+    topCategories: string[]
+    recentTransactions: Array<{ id: string; amount: number; status: string; date: Date; customer: string }>
+  }
+  const [providerDetails, setProviderDetails] = useState<ProviderDetails | null>(null)
 
   // Estados para menu de geração de relatórios
   const [showGenerateMenu, setShowGenerateMenu] = useState(false)
@@ -345,7 +372,7 @@ export default function PaymentManagement() {
         date: new Date().toISOString().split('T')[0],
         paymentMethod: 'CREDIT_CARD',
         status: 'COMPLETED',
-        source: 'PAYMENT_WEBHOOK',
+        source: 'PAYMENT_SYSTEM',
         paymentId: webhookLog.id,
         provider: webhookLog.provider,
         customer: webhookLog.customerName

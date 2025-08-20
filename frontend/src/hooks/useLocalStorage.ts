@@ -46,7 +46,7 @@ export function useLocalStorage<T>(
   }, [key, defaultValue, deserialize, expiration])
 
   // Função para definir valor no localStorage com timestamp
-  const setStoredValue = useCallback((value: T) => {
+  const writeStoredValue = useCallback((value: T) => {
     try {
       let valueToStore = value
       
@@ -71,22 +71,23 @@ export function useLocalStorage<T>(
   const setValue = useCallback((value: T | ((val: T) => T)) => {
     try {
       const valueToStore = value instanceof Function ? value(storedValue) : value
-      setStoredValue(valueToStore)
+      writeStoredValue(valueToStore)
       setStoredValue(valueToStore)
     } catch (error) {
       console.warn(`Erro ao definir valor para localStorage key "${key}":`, error)
     }
-  }, [storedValue, setStoredValue])
+  }, [storedValue, writeStoredValue])
 
   // Função para remover valor
   const removeValue = useCallback(() => {
     try {
       window.localStorage.removeItem(key)
-      setStoredValue(defaultValue)
+      writeStoredValue(defaultValue as unknown as T)
+      setStoredValue(defaultValue as unknown as T)
     } catch (error) {
       console.warn(`Erro ao remover localStorage key "${key}":`, error)
     }
-  }, [key, defaultValue])
+  }, [key, defaultValue, writeStoredValue])
 
   // Função para limpar todos os dados expirados
   const clearExpired = useCallback(() => {

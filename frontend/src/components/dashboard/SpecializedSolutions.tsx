@@ -4,9 +4,10 @@ import { useState } from 'react'
 import { ChefHat, Pizza, Coffee, Utensils, Settings, Star, TrendingUp } from 'lucide-react'
 
 export default function SpecializedSolutions() {
-  const [activeSolution, setActiveSolution] = useState('gourmet')
+  type SolutionKey = 'gourmet' | 'fastfood' | 'cafe' | 'franchise'
+  const [activeSolution, setActiveSolution] = useState<SolutionKey>('gourmet')
 
-  const solutions = {
+  const solutions: Record<SolutionKey, { icon: any; title: string; features: string[]; color: string }> = {
     gourmet: {
       icon: ChefHat,
       title: 'Restaurante Gourmet',
@@ -44,12 +45,12 @@ export default function SpecializedSolutions() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {Object.entries(solutions).map(([key, solution]) => {
           const IconComponent = solution.icon
-          const isActive = activeSolution === key
+          const isActive = activeSolution === (key as SolutionKey)
           
           return (
             <button
               key={key}
-              onClick={() => setActiveSolution(key)}
+              onClick={() => setActiveSolution(key as SolutionKey)}
               className={`p-6 rounded-2xl border-2 transition-all duration-300 ${
                 isActive 
                   ? 'border-blue-500 bg-blue-50' 
