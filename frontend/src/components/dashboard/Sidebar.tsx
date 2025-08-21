@@ -48,7 +48,7 @@ interface MenuCategory {
 }
 
 interface MenuItem {
-  id: string
+  id: DashboardSection
   label: string
   icon: any
   description?: string

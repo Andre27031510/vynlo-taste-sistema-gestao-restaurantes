@@ -122,12 +122,19 @@ interface FiscalNote {
   noteType: NoteType
   issuedAt?: Date
   createdAt: Date
+  updatedAt?: Date
   expiresAt?: Date
   qrCode: string
   barCode: string
   protocolNumber?: string
   rejectionReason?: string
   contingencyReason?: string
+  cancellationReason?: string
+  sefazAuthorization?: string
+  sefazProtocol?: string
+  observations?: string
+  seller?: string
+  paymentMethod?: string
   items: {
     id: string
     name: string
@@ -482,10 +489,14 @@ export default function FiscalManagement() {
       }
 
       // Simular verificação de conectividade com webservices
-      const webservicesStatus = {
-        nfe: 'checking' as const,
-        nfce: 'checking' as const,
-        nfse: 'checking' as const
+      const webservicesStatus: {
+        nfe: 'online' | 'offline' | 'error' | 'checking' | 'unknown',
+        nfce: 'online' | 'offline' | 'error' | 'checking' | 'unknown',
+        nfse: 'online' | 'offline' | 'error' | 'checking' | 'unknown'
+      } = {
+        nfe: 'checking',
+        nfce: 'checking',
+        nfse: 'checking'
       }
       
       setSefazStatus(prev => ({
@@ -763,7 +774,12 @@ export default function FiscalManagement() {
   }
 
   // Funções de relatórios
-  const generateReport = async (type: 'daily' | 'weekly' | 'monthly' | 'custom') => {
+  type ReportType = 'daily' | 'weekly' | 'monthly' | 'custom'
+    | 'emission_summary' | 'emission_by_type' | 'emission_by_status'
+    | 'financial_summary' | 'tax_analysis' | 'customer_analysis'
+    | 'audit_trail' | 'error_log'
+
+  const generateReport = async (type: ReportType) => {
     try {
       // Simular geração de relatório
       await new Promise(resolve => setTimeout(resolve, 2000))
@@ -909,8 +925,9 @@ export default function FiscalManagement() {
     return newNote.amountReceived - calculateTotal()
   }
 
-  const statusConfig = {
+  const statusConfig: Record<FiscalStatus, { label: string; color: string; icon: any }> = {
     pending: { label: 'Pendente', color: 'bg-yellow-100 text-yellow-800', icon: Clock },
+    approved: { label: 'Aprovada', color: 'bg-green-100 text-green-800', icon: CheckCircle },
     issued: { label: 'Emitida', color: 'bg-green-100 text-green-800', icon: CheckCircle },
     cancelled: { label: 'Cancelada', color: 'bg-red-100 text-red-800', icon: AlertCircle },
     error: { label: 'Erro', color: 'bg-red-100 text-red-800', icon: AlertCircle },
@@ -1001,7 +1018,10 @@ export default function FiscalManagement() {
       barCode: generateAccessKey(),
       items: newNote.items.map(item => ({
         ...item,
-        total: item.quantity * item.unitPrice
+        total: item.quantity * item.unitPrice,
+        icms: Number(((item.quantity * item.unitPrice) * 0.04).toFixed(2)),
+        pis: Number(((item.quantity * item.unitPrice) * 0.0065).toFixed(2)),
+        cofins: Number(((item.quantity * item.unitPrice) * 0.03).toFixed(2))
       })),
       paymentMethods: newNote.paymentMethods.map(pm => ({
         ...pm,
@@ -1113,29 +1133,56 @@ export default function FiscalManagement() {
       // Simular criação da nota
       await new Promise(resolve => setTimeout(resolve, 2000))
       
+      const noteNumber = `00000${fiscalNotes.length + 1}`
+      const accessKey = generateAccessKey()
+      const qrCode = generateQRCode(noteNumber, sale.total)
+
       const newNote: FiscalNote = {
         id: `nf-${Date.now()}`,
-        noteNumber: `00000${fiscalNotes.length + 1}`,
+        noteNumber,
+        accessKey,
         orderId: sale.orderId,
         customerName: sale.customerName,
-        customerDocument: sale.customerDocument,
         documentType: sale.documentType,
+        document: sale.customerDocument,
+        address: {
+          street: '',
+          number: '',
+          neighborhood: '',
+          city: '',
+          state: '',
+          zipCode: ''
+        },
         total: sale.total,
-        items: sale.items,
+        subtotal: Number((sale.total * 0.95).toFixed(2)),
+        taxAmount: Number((sale.total * 0.05).toFixed(2)),
+        discountAmount: 0,
         amountReceived: sale.total,
         change: 0,
         status: 'pending',
         noteType: sale.documentType === 'cnpj' ? 'nfe' : 'nfce',
-        issuedAt: new Date(),
         createdAt: new Date(),
-        updatedAt: new Date(),
-        sefazAuthorization: '',
-        sefazProtocol: '',
-        cancellationReason: '',
-        contingencyReason: '',
-        observations: `Nota criada automaticamente da venda ${sale.orderId}`,
-        seller: sale.seller,
-        paymentMethod: sale.paymentMethod
+        qrCode,
+        barCode: accessKey,
+        items: sale.items.map(it => ({
+          id: it.id,
+          name: it.name,
+          description: it.description,
+          quantity: it.quantity,
+          unitPrice: it.unitPrice,
+          total: Number((it.quantity * it.unitPrice).toFixed(2)),
+          ncm: it.ncm,
+          cfop: it.cfop,
+          icms: Number(((it.quantity * it.unitPrice) * 0.04).toFixed(2)),
+          pis: Number(((it.quantity * it.unitPrice) * 0.0065).toFixed(2)),
+          cofins: Number(((it.quantity * it.unitPrice) * 0.03).toFixed(2))
+        })),
+        paymentMethods: [
+          {
+            method: 'pix',
+            amount: sale.total
+          }
+        ]
       }
       
       // Adicionar à lista de notas fiscais
@@ -1631,7 +1678,7 @@ export default function FiscalManagement() {
                             
                             {/* Enviar Email */}
                             <button
-                              onClick={() => sendByEmail(note)}
+                              onClick={() => sendByEmail(note, note.email || 'cliente@example.com')}
                               className="text-blue-600 hover:text-blue-700 p-2 rounded-lg hover:bg-blue-50 transition-colors duration-200"
                               title="Enviar Email"
                             >

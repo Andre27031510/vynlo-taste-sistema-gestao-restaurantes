@@ -7,6 +7,7 @@ import {
   Download, Upload, Play, Pause, X, ArrowUpRight, Activity,
   Bell, Shield, Database, Link, Unlink, RotateCcw
 } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 import { useThemeContext } from '../../contexts/ThemeContext'
 
 export default function MultiChannelIntegration() {
@@ -19,12 +20,28 @@ export default function MultiChannelIntegration() {
   const [isProcessing, setIsProcessing] = useState(false)
   const [showNewIntegrationModal, setShowNewIntegrationModal] = useState(false)
   const [showSettingsModal, setShowSettingsModal] = useState(false)
-  const [selectedIntegration, setSelectedIntegration] = useState(null)
+  const [selectedIntegration, setSelectedIntegration] = useState<Integration | null>(null)
   const [autoSyncEnabled, setAutoSyncEnabled] = useState(true)
   const [syncInterval, setSyncInterval] = useState(2) // minutos
 
+  // Tipagem explícita para integrações
+  interface Integration {
+    id: string
+    name: string
+    status: 'connected' | 'pending' | 'disconnected'
+    orders: number
+    icon: LucideIcon
+    color: string
+    lastSync: Date | null
+    health: 'excellent' | 'good' | 'warning' | 'disconnected'
+    apiKey: string | null
+    webhookUrl: string | null
+    autoReply: boolean
+    notifications: boolean
+  }
+
   // Estados para dados dinâmicos
-  const [integrations, setIntegrations] = useState([
+  const [integrations, setIntegrations] = useState<Integration[]>([
     { 
       id: 'whatsapp', 
       name: 'WhatsApp Business', 
@@ -265,7 +282,7 @@ export default function MultiChannelIntegration() {
   }
 
   // Função para configurar integração
-  const configureIntegration = (integration: any) => {
+  const configureIntegration = (integration: Integration) => {
     setSelectedIntegration(integration)
     setShowSettingsModal(true)
   }

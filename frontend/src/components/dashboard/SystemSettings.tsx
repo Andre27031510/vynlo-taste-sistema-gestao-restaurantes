@@ -102,6 +102,7 @@ export default function SystemSettings() {
     twoFactorAuth: true,
     biometricAuth: false,
     passwordComplexity: 'strong',
+    passwordExpiry: 90,
     sessionManagement: true,
     ipWhitelist: [],
     vpnRequired: false,

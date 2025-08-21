@@ -28,7 +28,18 @@ export default function ReportsAnalytics() {
   const [emailRecipient, setEmailRecipient] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [generatedReports, setGeneratedReports] = useState([])
+  interface GeneratedReport {
+    id: number
+    module: string
+    moduleName?: string
+    period: string
+    type: string
+    delivery: string
+    generatedAt: string
+    dataSource: string
+    lastSync: string
+  }
+  const [generatedReports, setGeneratedReports] = useState<GeneratedReport[]>([])
   const [showMessage, setShowMessage] = useState(false)
   const [messageText, setMessageText] = useState('')
   const [messageType, setMessageType] = useState('success')
