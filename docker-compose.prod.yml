@@ -57,6 +57,10 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/vynlo_taste
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=96043020
+      - SPRING_DATASOURCE_JDBC_URL=jdbc:postgresql://postgres:5432/vynlo_taste
+      - DB_URL=jdbc:postgresql://postgres:5432/vynlo_taste
+      - JDBC_URL=jdbc:postgresql://postgres:5432/vynlo_taste
+      - JDBC_DATABASE_URL=jdbc:postgresql://postgres:5432/vynlo_taste
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - JWT_SECRET=${JWT_SECRET:-your-secret-key}
