@@ -7,7 +7,7 @@ on:
       - 'frontend/**'
       - 'backend/**'
       - 'docker-compose.prod.yml'
-      - '.github/workflows/ci-cd.yml'
+      - '.github/workflows/**'
 
 env:
   IMAGE_BACKEND: ${{ secrets.DOCKERHUB_USERNAME }}/vynlotaste-backend
@@ -17,18 +17,25 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      backend_changed: ${{ steps.changes.outputs.backend_any_changed }}
+      frontend_changed: ${{ steps.changes.outputs.frontend_any_changed }}
+      infra_changed: ${{ steps.changes.outputs.infra_any_changed }}
     steps:
       - uses: actions/checkout@v4
 
       - name: Detect changes
         id: changes
-        uses: dorny/paths-filter@v3
+        uses: tj-actions/changed-files@v44
         with:
-          filters: |
+          files_yaml: |
             backend:
               - 'backend/**'
             frontend:
               - 'frontend/**'
+            infra:
+              - 'docker-compose.prod.yml'
+              - '.github/workflows/**'
 
       - name: Login to Docker Hub
         if: ${{ secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
@@ -38,7 +45,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push backend image
-        if: ${{ steps.changes.outputs.backend == 'true' }}
+        if: ${{ steps.changes.outputs.backend_any_changed == 'true' }}
         uses: docker/build-push-action@v6
         with:
           context: ./backend
@@ -49,7 +56,7 @@ jobs:
             ${{ env.IMAGE_BACKEND }}:latest
 
       - name: Build and push frontend image
-        if: ${{ steps.changes.outputs.frontend == 'true' }}
+        if: ${{ steps.changes.outputs.frontend_any_changed == 'true' }}
         uses: docker/build-push-action@v6
         with:
           context: ./frontend
@@ -69,6 +76,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    if: ${{ needs.build.outputs.backend_changed == 'true' || needs.build.outputs.frontend_changed == 'true' || needs.build.outputs.infra_changed == 'true' }}
     steps:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
