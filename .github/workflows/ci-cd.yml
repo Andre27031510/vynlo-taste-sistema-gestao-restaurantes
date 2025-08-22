@@ -20,6 +20,7 @@ jobs:
     env:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+      TAG: ${{ github.sha }}
     outputs:
       backend_changed: ${{ steps.changes.outputs.backend_any_changed }}
       frontend_changed: ${{ steps.changes.outputs.frontend_any_changed }}
@@ -55,8 +56,8 @@ jobs:
           file: ./backend/Dockerfile
           push: true
           tags: |
-            ${{ env.IMAGE_BACKEND }}:${{ env.TAG }}
-            ${{ env.IMAGE_BACKEND }}:latest
+            ${{ env.DOCKERHUB_USERNAME }}/vynlotaste-backend:${{ env.TAG }}
+            ${{ env.DOCKERHUB_USERNAME }}/vynlotaste-backend:latest
 
       - name: Build and push frontend image
         if: ${{ steps.changes.outputs.frontend_any_changed == 'true' }}
@@ -66,8 +67,8 @@ jobs:
           file: ./frontend/Dockerfile
           push: true
           tags: |
-            ${{ env.IMAGE_FRONTEND }}:${{ env.TAG }}
-            ${{ env.IMAGE_FRONTEND }}:latest
+            ${{ env.DOCKERHUB_USERNAME }}/vynlotaste-frontend:${{ env.TAG }}
+            ${{ env.DOCKERHUB_USERNAME }}/vynlotaste-frontend:latest
           build-args: |
             NEXT_PUBLIC_FIREBASE_API_KEY=${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
             NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ secrets.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN }}
@@ -90,8 +91,20 @@ jobs:
           script: |
             set -e
             cd /opt/vynlo
-            docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }} || true
-            docker compose -f docker-compose.prod.yml pull || true
-            docker compose -f docker-compose.prod.yml up -d
+            # Docker login opcional (não falha pipeline se faltar credencial)
+            if [ -n "${{ secrets.DOCKERHUB_USERNAME }}" ] && [ -n "${{ secrets.DOCKERHUB_TOKEN }}" ]; then
+              docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }} || true
+            fi
+            # Detectar docker compose ou docker-compose
+            if docker compose version >/dev/null 2>&1; then
+              DC="docker compose"
+            elif command -v docker-compose >/dev/null 2>&1; then
+              DC="docker-compose"
+            else
+              echo "docker compose/docker-compose não encontrado" >&2
+              exit 1
+            fi
+            $DC pull || true
+            $DC up -d
             docker system prune -f
 
