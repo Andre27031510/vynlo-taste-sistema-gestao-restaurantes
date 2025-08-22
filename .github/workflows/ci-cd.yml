@@ -124,3 +124,6 @@ jobs:
             # Cleanup
             docker system prune -f
             docker logout
+PS C:\Users\andre\Desktop\Vynlo Taste> git add .
+warning: in the working copy of 'frontend/src/components/dashboard/CashFlowManagement.tsx', LF will be replaced by CRLF the next time Git touches it
+PS C:\Users\andre\Desktop\Vynlo Taste> 
