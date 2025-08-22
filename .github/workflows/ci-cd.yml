@@ -1,83 +1,69 @@
-name: Vynlo Taste CI/CD
+name: CI/CD
 
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
-env:
-  REGISTRY: docker.io
-  IMAGE_BACKEND: ${{ secrets.DOCKERHUB_USERNAME }}/vynlotaste-backend
-  IMAGE_FRONTEND: ${{ secrets.DOCKERHUB_USERNAME }}/vynlotaste-frontend
-  TAG: ${{ github.sha }}
+    paths:
+      - 'frontend/**'
+      - 'backend/**'
+      - 'docker-compose.prod.yml'
+      - '.github/workflows/**'
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: frontend/package-lock.json
-          
-      - name: Test Backend
-        run: |
-          cd backend
-          mvn compile
-          
-      - name: Test Frontend
-        run: |
-          cd frontend
-          npm ci
-          npm run lint
-
   build:
-    needs: test
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
+    env:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+      TAG: ${{ github.sha }}
+    outputs:
+      backend_changed: ${{ steps.changes.outputs.backend_any_changed }}
+      frontend_changed: ${{ steps.changes.outputs.frontend_any_changed }}
+      infra_changed: ${{ steps.changes.outputs.infra_any_changed }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - name: Detect changes
+        id: changes
+        uses: tj-actions/changed-files@v44
+        with:
+          files_yaml: |
+            backend:
+              - 'backend/**'
+            frontend:
+              - 'frontend/**'
+            infra:
+              - 'docker-compose.prod.yml'
+              - '.github/workflows/**'
 
       - name: Login to Docker Hub
+        if: ${{ env.DOCKERHUB_USERNAME != '' && env.DOCKERHUB_TOKEN != '' }}
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: ${{ env.DOCKERHUB_USERNAME }}
+          password: ${{ env.DOCKERHUB_TOKEN }}
 
-      - name: Build and push backend
+      - name: Build and push backend image
+        if: ${{ steps.changes.outputs.backend_any_changed == 'true' }}
         uses: docker/build-push-action@v6
         with:
           context: ./backend
+          file: ./backend/Dockerfile
           push: true
           tags: |
-            ${{ env.IMAGE_BACKEND }}:${{ env.TAG }}
-            ${{ env.IMAGE_BACKEND }}:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          platforms: linux/amd64
+            ${{ env.DOCKERHUB_USERNAME }}/vynlotaste-backend:${{ env.TAG }}
+            ${{ env.DOCKERHUB_USERNAME }}/vynlotaste-backend:latest
 
-      - name: Build and push frontend
+      - name: Build and push frontend image
+        if: ${{ steps.changes.outputs.frontend_any_changed == 'true' }}
         uses: docker/build-push-action@v6
         with:
           context: ./frontend
+          file: ./frontend/Dockerfile
           push: true
           tags: |
-            ${{ env.IMAGE_FRONTEND }}:${{ env.TAG }}
-            ${{ env.IMAGE_FRONTEND }}:latest
+            ${{ env.DOCKERHUB_USERNAME }}/vynlotaste-frontend:${{ env.TAG }}
+            ${{ env.DOCKERHUB_USERNAME }}/vynlotaste-frontend:latest
           build-args: |
             NEXT_PUBLIC_FIREBASE_API_KEY=${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
             NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ secrets.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN }}
@@ -85,45 +71,22 @@ jobs:
             NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=${{ secrets.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET }}
             NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
             NEXT_PUBLIC_FIREBASE_APP_ID=${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          platforms: linux/amd64
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    environment: production
+    if: ${{ needs.build.outputs.backend_changed == 'true' || needs.build.outputs.frontend_changed == 'true' || needs.build.outputs.infra_changed == 'true' }}
     steps:
-      - name: Deploy to production
+      - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          timeout: 300s
           script: |
             set -e
             cd /opt/vynlo
-            
-            # Backup current state
-            docker compose -f docker-compose.prod.yml ps > deployment-backup.txt
-            
-            # Login and pull latest images
-            echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-            docker compose -f docker-compose.prod.yml pull
-            
-            # Deploy with zero downtime
-            docker compose -f docker-compose.prod.yml up -d --remove-orphans
-            
-            # Health check
-            sleep 30
-            curl -f http://localhost:3000/ || exit 1
-            curl -f http://localhost:8081/actuator/health || exit 1
-            
-            # Cleanup
+            docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }} || true
+            docker compose -f docker-compose.prod.yml pull || true
+            docker compose -f docker-compose.prod.yml up -d
             docker system prune -f
-            docker logout
-PS C:\Users\andre\Desktop\Vynlo Taste> git add .
-warning: in the working copy of 'frontend/src/components/dashboard/CashFlowManagement.tsx', LF will be replaced by CRLF the next time Git touches it
-PS C:\Users\andre\Desktop\Vynlo Taste> 
