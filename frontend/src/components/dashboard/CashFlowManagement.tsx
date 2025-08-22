@@ -510,7 +510,7 @@ export default function CashFlowManagement() {
       ]
 
       // Adicionar transações extraídas à lista
-      setRecentTransactions(prev => [...extractedTransactions.map(t => ({...t, source: 'bank' as const, type: t.type as 'INCOME' | 'EXPENSE'})), ...prev])
+      setRecentTransactions(prev => [...extractedTransactions.map(t => ({...t, source: 'BANK_RECONCILIATION' as const, type: t.type as 'INCOME' | 'EXPENSE'})), ...prev])
       
       // Adicionar transações bancárias para reconciliação
       const bankReconciliations: BankReconciliation[] = extractedTransactions.map(trans => ({
