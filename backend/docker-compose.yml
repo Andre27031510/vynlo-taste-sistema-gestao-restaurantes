@@ -9,12 +9,13 @@ services:
     environment:
       POSTGRES_DB: vynlo_taste
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: "96043020"
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      # Ajuste o caminho se o init.sql estiver em outro local
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./database/backups:/backups
     networks:

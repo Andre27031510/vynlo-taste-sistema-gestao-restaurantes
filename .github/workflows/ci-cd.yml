@@ -1,13 +1,10 @@
-name: CI/CD
+name: Vynlo Taste CI/CD
 
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'frontend/**'
-      - 'backend/**'
-      - 'docker-compose.prod.yml'
-      - '.github/workflows/ci-cd.yml'
+  pull_request:
+    branches: [ main ]
 
 env:
   REGISTRY: docker.io
@@ -16,46 +13,67 @@ env:
   TAG: ${{ github.sha }}
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - id: changes
-        uses: tj-actions/changed-files@v44
+      
+      - name: Setup Java
+        uses: actions/setup-java@v4
         with:
-          files_yaml: |
-            backend:
-              - 'backend/**'
-            frontend:
-              - 'frontend/**'
+          java-version: '17'
+          distribution: 'temurin'
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+          
+      - name: Test Backend
+        run: |
+          cd backend
+          mvn test
+          
+      - name: Test Frontend
+        run: |
+          cd frontend
+          npm ci
+          npm run lint
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
       - name: Login to Docker Hub
-        if: steps.changes.outputs.backend_any_changed == 'true' || steps.changes.outputs.frontend_any_changed == 'true'
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push backend image
-        if: steps.changes.outputs.backend_any_changed == 'true'
+      - name: Build and push backend
         uses: docker/build-push-action@v6
         with:
           context: ./backend
-          file: ./backend/Dockerfile
           push: true
           tags: |
             ${{ env.IMAGE_BACKEND }}:${{ env.TAG }}
             ${{ env.IMAGE_BACKEND }}:latest
-          cache-from: type=registry,ref=${{ env.IMAGE_BACKEND }}:buildcache
-          cache-to: type=registry,ref=${{ env.IMAGE_BACKEND }}:buildcache,mode=max
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64
 
-      - name: Build and push frontend image
-        if: steps.changes.outputs.frontend_any_changed == 'true'
+      - name: Build and push frontend
         uses: docker/build-push-action@v6
         with:
           context: ./frontend
-          file: ./frontend/Dockerfile
           push: true
           tags: |
             ${{ env.IMAGE_FRONTEND }}:${{ env.TAG }}
@@ -67,28 +85,42 @@ jobs:
             NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=${{ secrets.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET }}
             NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
             NEXT_PUBLIC_FIREBASE_APP_ID=${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID }}
-          cache-from: type=registry,ref=${{ env.IMAGE_FRONTEND }}:buildcache
-          cache-to: type=registry,ref=${{ env.IMAGE_FRONTEND }}:buildcache,mode=max
-
-    outputs:
-      backend_changed: ${{ steps.changes.outputs.backend_any_changed }}
-      frontend_changed: ${{ steps.changes.outputs.frontend_any_changed }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    if: needs.build.outputs.backend_changed == 'true' || needs.build.outputs.frontend_changed == 'true'
+    if: github.ref == 'refs/heads/main'
+    environment: production
     steps:
-      - name: Deploy via SSH
+      - name: Deploy to production
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
+          timeout: 300s
           script: |
             set -e
             cd /opt/vynlo
-            docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
-            docker compose -f docker-compose.prod.yml pull || true
-            docker compose -f docker-compose.prod.yml up -d
+            
+            # Backup current state
+            docker compose -f docker-compose.prod.yml ps > deployment-backup.txt
+            
+            # Login and pull latest images
+            echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+            docker compose -f docker-compose.prod.yml pull
+            
+            # Deploy with zero downtime
+            docker compose -f docker-compose.prod.yml up -d --remove-orphans
+            
+            # Health check
+            sleep 30
+            curl -f http://localhost:3000/ || exit 1
+            curl -f http://localhost:8081/actuator/health || exit 1
+            
+            # Cleanup
             docker system prune -f
+            docker logout

@@ -250,7 +250,7 @@ export default function Sidebar({ activeSection, setActiveSection, collapsed, se
           return (
             <button
               key={item.id}
-              onClick={() => setActiveSection(item.id)}
+              onClick={() => setActiveSection(item.id as DashboardSection)}
                         className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 group ${
                 isActive 
                   ? 'text-white shadow-lg' 

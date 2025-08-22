@@ -127,12 +127,12 @@ export default function PaymentManagement() {
   const [reportProvider, setReportProvider] = useState('all')
   const [reportStatus, setReportStatus] = useState('all')
   const [isGeneratingReport, setIsGeneratingReport] = useState(false)
-  const [reportData, setReportData] = useState(null)
+  const [reportData, setReportData] = useState<any>(null)
 
   // Estados para detalhes dos provedores
   const [showProviderDetails, setShowProviderDetails] = useState(false)
   const [selectedProvider, setSelectedProvider] = useState('')
-  const [providerDetails, setProviderDetails] = useState(null)
+  const [providerDetails, setProviderDetails] = useState<any>(null)
 
   // Estados para menu de geração de relatórios
   const [showGenerateMenu, setShowGenerateMenu] = useState(false)
@@ -282,21 +282,21 @@ export default function PaymentManagement() {
     // Simular diferentes cenários de pagamento
     const scenarios = [
       {
-        status: 'success' as const,
+                  status: 'success',
         message: 'Pagamento aprovado',
         orderId: `#${Math.floor(Math.random() * 10000)}`,
         amount: Math.random() * 200 + 20,
         customerName: 'Cliente Online'
       },
       {
-        status: 'pending' as const,
+                  status: 'pending',
         message: 'Pagamento em processamento',
         orderId: `#${Math.floor(Math.random() * 10000)}`,
         amount: Math.random() * 150 + 30,
         customerName: 'Cliente PIX'
       },
       {
-        status: 'error' as const,
+                  status: 'error',
         message: 'Erro no processamento',
         orderId: `#${Math.floor(Math.random() * 10000)}`,
         amount: Math.random() * 100 + 25,
@@ -310,7 +310,11 @@ export default function PaymentManagement() {
       id: `webhook-${Date.now()}`,
       timestamp: new Date(),
       provider: randomProvider,
-      ...randomScenario
+      status: randomScenario.status as 'success' | 'error' | 'pending',
+      message: randomScenario.message,
+      orderId: randomScenario.orderId,
+      amount: randomScenario.amount,
+      customerName: randomScenario.customerName
     }
 
     setWebhookLogs(prev => [webhookLog, ...prev.slice(0, 9)]) // Manter apenas os 10 últimos
@@ -345,7 +349,7 @@ export default function PaymentManagement() {
         date: new Date().toISOString().split('T')[0],
         paymentMethod: 'CREDIT_CARD',
         status: 'COMPLETED',
-        source: 'PAYMENT_WEBHOOK',
+        source: 'PAYMENT_SYSTEM',
         paymentId: webhookLog.id,
         provider: webhookLog.provider,
         customer: webhookLog.customerName
@@ -2137,7 +2141,7 @@ export default function PaymentManagement() {
                 <div className={`${currentTheme === 'dark' ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-200'} rounded-xl p-4 border`}>
                   <h4 className={`font-semibold ${currentTheme === 'dark' ? 'text-white' : 'text-gray-900'} mb-3`}>Categorias Principais</h4>
                   <div className="space-y-2">
-                    {providerDetails.topCategories.map((category, index) => (
+                    {providerDetails.topCategories.map((category: string, index: number) => (
                       <div key={index} className="flex items-center space-x-2">
                         <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                         <span className={`text-sm ${currentTheme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>{category}</span>
@@ -2151,7 +2155,7 @@ export default function PaymentManagement() {
               <div className={`${currentTheme === 'dark' ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-200'} rounded-xl p-4 border`}>
                 <h4 className={`font-semibold ${currentTheme === 'dark' ? 'text-white' : 'text-gray-900'} mb-3`}>Transações Recentes</h4>
                 <div className="space-y-2">
-                  {providerDetails.recentTransactions.map((transaction) => (
+                  {providerDetails.recentTransactions.map((transaction: any) => (
                     <div key={transaction.id} className={`flex items-center justify-between p-2 rounded-lg ${
                       currentTheme === 'dark' ? 'bg-gray-600' : 'bg-gray-50'
                     }`}>

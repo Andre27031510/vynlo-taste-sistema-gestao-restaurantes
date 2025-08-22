@@ -19,12 +19,12 @@ export default function MultiChannelIntegration() {
   const [isProcessing, setIsProcessing] = useState(false)
   const [showNewIntegrationModal, setShowNewIntegrationModal] = useState(false)
   const [showSettingsModal, setShowSettingsModal] = useState(false)
-  const [selectedIntegration, setSelectedIntegration] = useState(null)
+  const [selectedIntegration, setSelectedIntegration] = useState<any>(null)
   const [autoSyncEnabled, setAutoSyncEnabled] = useState(true)
   const [syncInterval, setSyncInterval] = useState(2) // minutos
 
   // Estados para dados dinâmicos
-  const [integrations, setIntegrations] = useState([
+  const [integrations, setIntegrations] = useState<any[]>([
     { 
       id: 'whatsapp', 
       name: 'WhatsApp Business', 
@@ -175,7 +175,9 @@ export default function MultiChannelIntegration() {
           orders: Math.floor(Math.random() * 100) + 10,
           lastSync: new Date(),
           health: Math.random() > 0.8 ? 'excellent' : 
-                 Math.random() > 0.6 ? 'good' : 'warning'
+                 Math.random() > 0.6 ? 'good' : 'warning',
+          apiKey: integration.apiKey || '',
+          webhookUrl: integration.webhookUrl || ''
         }
       }
       return integration
@@ -197,7 +199,9 @@ export default function MultiChannelIntegration() {
               status: 'connected', 
               lastSync: new Date(),
               health: 'good',
-              orders: Math.floor(Math.random() * 50) + 5
+              orders: Math.floor(Math.random() * 50) + 5,
+              apiKey: integration.apiKey || '',
+              webhookUrl: integration.webhookUrl || ''
             }
           : integration
       ))
@@ -226,7 +230,9 @@ export default function MultiChannelIntegration() {
               status: 'disconnected', 
               lastSync: null,
               health: 'disconnected',
-              orders: 0
+              orders: 0,
+              apiKey: null,
+              webhookUrl: null
             }
           : integration
       ))
@@ -308,12 +314,12 @@ export default function MultiChannelIntegration() {
       const newIntegration = {
         id: `integration_${Date.now()}`,
         name: newIntegrationForm.name,
-        status: 'pending' as const,
+                  status: 'pending',
         orders: 0,
         icon: Globe,
         color: 'blue',
         lastSync: null,
-        health: 'disconnected' as const,
+                  health: 'disconnected',
         apiKey: newIntegrationForm.apiKey,
         webhookUrl: newIntegrationForm.webhookUrl,
         autoReply: newIntegrationForm.autoReply,

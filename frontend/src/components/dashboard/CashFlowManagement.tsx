@@ -56,7 +56,8 @@ import {
   Calculator,
   RotateCcw,
   Zap as Lightning,
-  UserCheck
+  UserCheck,
+  Calendar
 } from 'lucide-react'
 
 // Interface comum para transações financeiras (integração com pagamentos)
@@ -479,7 +480,7 @@ export default function CashFlowManagement() {
       await new Promise(resolve => setTimeout(resolve, 2000))
       
       // Simular extração de transações do arquivo
-      const extractedTransactions = [
+      const extractedTransactions: FinancialTransaction[] = [
         {
           id: `ext_${Date.now()}_1`,
           type: 'EXPENSE',
@@ -490,7 +491,8 @@ export default function CashFlowManagement() {
           paymentMethod: 'TRANSFER',
           status: 'COMPLETED',
           provider: 'Fornecedor ABC',
-          notes: 'Importado do extrato bancário'
+          notes: 'Importado do extrato bancário',
+          source: 'BANK_RECONCILIATION'
         },
         {
           id: `ext_${Date.now()}_2`,
@@ -502,15 +504,16 @@ export default function CashFlowManagement() {
           paymentMethod: 'PIX',
           status: 'COMPLETED',
           provider: 'Cliente XYZ',
-          notes: 'Importado do extrato bancário'
+          notes: 'Importado do extrato bancário',
+          source: 'BANK_RECONCILIATION'
         }
       ]
 
       // Adicionar transações extraídas à lista
-      setRecentTransactions(prev => [...extractedTransactions, ...prev])
+      setRecentTransactions(prev => [...extractedTransactions.map(t => ({...t, source: 'bank' as const, type: t.type as 'INCOME' | 'EXPENSE'})), ...prev])
       
       // Adicionar transações bancárias para reconciliação
-      const bankReconciliations = extractedTransactions.map(trans => ({
+      const bankReconciliations: BankReconciliation[] = extractedTransactions.map(trans => ({
         id: `bank_${Date.now()}_${Math.random()}`,
         bankName: importForm.bankName,
         accountNumber: importForm.accountNumber,
@@ -528,7 +531,7 @@ export default function CashFlowManagement() {
       const reconciledCount = extractedTransactions.length
       const newCount = extractedTransactions.length
       
-      setSuccessMessage(`Extrato importado com sucesso! ${reconciliatedCount} transações reconciliadas, ${newCount} novas transações criadas.`)
+      setSuccessMessage(`Extrato importado com sucesso! ${reconciledCount} transações reconciliadas, ${newCount} novas transações criadas.`)
       setShowImportModal(false)
       
       // Limpar formulário
@@ -559,7 +562,7 @@ export default function CashFlowManagement() {
       await new Promise(resolve => setTimeout(resolve, 3000))
       
       // Simular transações sincronizadas
-      const syncedTransactions = [
+      const syncedTransactions: FinancialTransaction[] = [
         {
           id: `sync_${Date.now()}_1`,
           type: 'EXPENSE',
@@ -570,7 +573,8 @@ export default function CashFlowManagement() {
           paymentMethod: 'DEBIT_CARD',
           status: 'COMPLETED',
           provider: 'Banco',
-          notes: 'Sincronizado automaticamente'
+          notes: 'Sincronizado automaticamente',
+          source: 'BANK_RECONCILIATION'
         }
       ]
       
@@ -578,7 +582,7 @@ export default function CashFlowManagement() {
       setRecentTransactions(prev => [...syncedTransactions, ...prev])
       
       // Adicionar transações bancárias para reconciliação
-      const bankReconciliations = syncedTransactions.map(trans => ({
+      const bankReconciliations: BankReconciliation[] = syncedTransactions.map(trans => ({
         id: `sync_${Date.now()}_${Math.random()}`,
         bankName: 'Banco do Brasil', // Banco padrão para sincronização
         accountNumber: '12345-6',
@@ -917,7 +921,7 @@ export default function CashFlowManagement() {
       .map(payment => ({
         ...payment,
         id: `cf_${payment.paymentId}`,
-        source: 'PAYMENT_SYSTEM' as const
+        source: 'PAYMENT_SYSTEM' as 'PAYMENT_SYSTEM'
       }))
     
     if (newTransactions.length > 0) {
@@ -925,10 +929,14 @@ export default function CashFlowManagement() {
         // Filtrar transações duplicadas
         const existingIds = new Set(prev.map(t => t.paymentId))
         const uniqueNewTransactions = newTransactions.filter(t => !existingIds.has(t.paymentId))
+        
+        // Atualizar mensagem de sucesso
+        setTimeout(() => {
+          setSuccessMessage(`${uniqueNewTransactions.length} transações de pagamento sincronizadas com sucesso!`)
+        }, 100)
+        
         return [...uniqueNewTransactions, ...prev]
       })
-      
-      setSuccessMessage(`${uniqueNewTransactions.length} transações de pagamento sincronizadas com sucesso!`)
     }
   }
 

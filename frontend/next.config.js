@@ -1,11 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: {
-    domains: ['localhost'],
-  },
-  experimental: {
-    serverComponentsExternalPackages: [],
-  },
+  output: 'standalone',
+  images: { domains: ['localhost'] },
+  serverExternalPackages: [],
 }
-
 module.exports = nextConfig

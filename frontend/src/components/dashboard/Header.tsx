@@ -12,7 +12,7 @@ interface HeaderProps {
 
 export default function Header({ sidebarCollapsed, setSidebarCollapsed }: HeaderProps) {
   const { currentTheme, toggleTheme } = useTheme()
-  const { currentUser, logout } = useAuth()
+  const { user, logout } = useAuth()
   const [showUserMenu, setShowUserMenu] = useState(false)
   const userMenuRef = useRef<HTMLDivElement>(null)
 
@@ -131,10 +131,10 @@ export default function Header({ sidebarCollapsed, setSidebarCollapsed }: Header
               <div className="text-left">
                 <p className={`text-sm font-medium ${
                   currentTheme === 'dark' ? 'text-white' : 'text-gray-900'
-                }`}>{currentUser?.displayName || 'Usuário'}</p>
+                }`}>{user?.displayName || 'Usuário'}</p>
                 <p className={`text-xs ${
                   currentTheme === 'dark' ? 'text-gray-400' : 'text-gray-500'
-                }`}>{currentUser?.email || 'email@exemplo.com'}</p>
+                }`}>{user?.email || 'email@exemplo.com'}</p>
               </div>
               <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${
                 showUserMenu ? 'rotate-180' : ''

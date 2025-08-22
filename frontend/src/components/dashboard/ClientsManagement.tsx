@@ -195,8 +195,8 @@ export default function ClientsManagement() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-manrope font-bold text-primary">Gestão de Clientes</h1>
-          <p className="text-secondary font-manrope">Cadastre e gerencie seus clientes</p>
+          <h1 className="text-3xl font-manrope font-bold text-gray-900 dark:text-white">Gestão de Clientes</h1>
+          <p className="text-gray-600 dark:text-gray-300 font-manrope">Cadastre e gerencie seus clientes</p>
         </div>
         
         <button 
@@ -212,9 +212,9 @@ export default function ClientsManagement() {
       <div className="card-primary rounded-2xl p-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div>
-            <label className="block text-sm font-manrope font-medium text-primary mb-2">Buscar Cliente</label>
+            <label className="block text-sm font-manrope font-medium text-gray-900 dark:text-white mb-2">Buscar Cliente</label>
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted w-4 h-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
               <input
                 type="text"
                 placeholder="Nome, telefone ou e-mail..."
@@ -226,7 +226,7 @@ export default function ClientsManagement() {
           </div>
           
           <div>
-            <label className="block text-sm font-manrope font-medium text-primary mb-2">Status</label>
+            <label className="block text-sm font-manrope font-medium text-gray-900 dark:text-white mb-2">Status</label>
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
@@ -239,7 +239,7 @@ export default function ClientsManagement() {
           </div>
           
           <div>
-            <label className="block text-sm font-manrope font-medium text-primary mb-2">Volume de Pedidos</label>
+            <label className="block text-sm font-manrope font-medium text-gray-900 dark:text-white mb-2">Volume de Pedidos</label>
             <select
               value={orderFilter}
               onChange={(e) => setOrderFilter(e.target.value)}
@@ -273,8 +273,8 @@ export default function ClientsManagement() {
         <div className="card-primary rounded-2xl p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-manrope font-medium text-secondary">Total de Clientes</p>
-              <p className="text-3xl font-manrope font-bold text-primary">{totalClients}</p>
+              <p className="text-sm font-manrope font-medium text-gray-600 dark:text-gray-300">Total de Clientes</p>
+              <p className="text-3xl font-manrope font-bold text-gray-900 dark:text-white">{totalClients}</p>
             </div>
             <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/20 rounded-xl flex items-center justify-center">
               <Users className="w-6 h-6 text-blue-600 dark:text-blue-400" />
@@ -285,7 +285,7 @@ export default function ClientsManagement() {
         <div className="card-primary rounded-2xl p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-manrope font-medium text-secondary">Clientes Ativos</p>
+              <p className="text-sm font-manrope font-medium text-gray-600 dark:text-gray-300">Clientes Ativos</p>
               <p className="text-3xl font-manrope font-bold text-green-600 dark:text-green-400">{activeClients}</p>
             </div>
             <div className="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-xl flex items-center justify-center">
@@ -297,7 +297,7 @@ export default function ClientsManagement() {
         <div className="card-primary rounded-2xl p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-manrope font-medium text-secondary">Receita Total</p>
+              <p className="text-sm font-manrope font-medium text-gray-600 dark:text-gray-300">Receita Total</p>
               <p className="text-3xl font-manrope font-bold text-emerald-600 dark:text-emerald-400">
                 R$ {totalRevenue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
               </p>
@@ -311,7 +311,7 @@ export default function ClientsManagement() {
         <div className="card-primary rounded-2xl p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-manrope font-medium text-secondary">Avaliação Média</p>
+              <p className="text-sm font-manrope font-medium text-gray-600 dark:text-gray-300">Avaliação Média</p>
               <p className="text-3xl font-manrope font-bold text-yellow-600 dark:text-yellow-400">{averageRating}</p>
             </div>
             <div className="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/20 rounded-xl flex items-center justify-center">
@@ -326,13 +326,13 @@ export default function ClientsManagement() {
           <table className="w-full">
             <thead className="bg-adaptive">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-manrope font-medium text-primary uppercase">Cliente</th>
-                <th className="px-6 py-3 text-left text-xs font-manrope font-medium text-primary uppercase">Contato</th>
-                <th className="px-6 py-3 text-left text-xs font-manrope font-medium text-primary uppercase">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-manrope font-medium text-primary uppercase">Pedidos</th>
-                <th className="px-6 py-3 text-left text-xs font-manrope font-medium text-primary uppercase">Total Gasto</th>
-                <th className="px-6 py-3 text-left text-xs font-manrope font-medium text-primary uppercase">Último Pedido</th>
-                <th className="px-6 py-3 text-left text-xs font-manrope font-medium text-primary uppercase">Ações</th>
+                <th className="px-6 py-3 text-left text-xs font-manrope font-medium text-gray-900 dark:text-white uppercase">Cliente</th>
+                <th className="px-6 py-3 text-left text-xs font-manrope font-medium text-gray-900 dark:text-white uppercase">Contato</th>
+                <th className="px-6 py-3 text-left text-xs font-manrope font-medium text-gray-900 dark:text-white uppercase">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-manrope font-medium text-gray-900 dark:text-white uppercase">Pedidos</th>
+                <th className="px-6 py-3 text-left text-xs font-manrope font-medium text-gray-900 dark:text-white uppercase">Total Gasto</th>
+                <th className="px-6 py-3 text-left text-xs font-manrope font-medium text-gray-900 dark:text-white uppercase">Último Pedido</th>
+                <th className="px-6 py-3 text-left text-xs font-manrope font-medium text-gray-900 dark:text-white uppercase">Ações</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-adaptive">
@@ -340,9 +340,9 @@ export default function ClientsManagement() {
                 <tr>
                   <td colSpan={7} className="px-6 py-12 text-center">
                     <div className="text-muted">
-                      <Users className="w-16 h-16 mx-auto mb-4 text-muted" />
-                      <p className="text-lg font-manrope font-medium mb-2 text-primary">Nenhum cliente encontrado</p>
-                      <p className="text-sm text-secondary">Tente ajustar os filtros ou cadastrar um novo cliente</p>
+                      <Users className="w-16 h-16 mx-auto mb-4 text-gray-400 dark:text-gray-500" />
+                      <p className="text-lg font-manrope font-medium mb-2 text-gray-900 dark:text-white">Nenhum cliente encontrado</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">Tente ajustar os filtros ou cadastrar um novo cliente</p>
                     </div>
                   </td>
                 </tr>
@@ -355,21 +355,21 @@ export default function ClientsManagement() {
                           <span className="text-white font-manrope font-bold text-sm">{client.name.charAt(0)}</span>
                         </div>
                         <div>
-                          <span className="font-manrope font-medium text-primary">{client.name}</span>
+                          <span className="font-manrope font-medium text-gray-900 dark:text-white">{client.name}</span>
                           <div className="flex items-center space-x-1 mt-1">
                             <Star className="w-3 h-3 text-yellow-500 fill-current" />
-                            <span className="text-xs text-secondary">{client.rating}</span>
+                            <span className="text-xs text-gray-600 dark:text-gray-300">{client.rating}</span>
                           </div>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="space-y-1">
-                        <div className="flex items-center space-x-2 text-sm text-secondary">
+                        <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300">
                           <Phone className="w-4 h-4" />
                           <span>{client.phone}</span>
                         </div>
-                        <div className="flex items-center space-x-2 text-sm text-secondary">
+                        <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300">
                           <Mail className="w-4 h-4" />
                           <span>{client.email}</span>
                         </div>
@@ -383,13 +383,13 @@ export default function ClientsManagement() {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="font-manrope font-medium text-primary">{client.orders}</span>
+                      <span className="font-manrope font-medium text-gray-900 dark:text-white">{client.orders}</span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className="font-manrope font-bold text-green-600 dark:text-green-400">R$ {client.total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center space-x-2 text-sm text-secondary">
+                      <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300">
                         <Clock className="w-4 h-4" />
                         <span>{client.lastOrder}</span>
                       </div>
@@ -446,7 +446,7 @@ export default function ClientsManagement() {
             <form onSubmit={handleSubmit} className="p-6 space-y-6 overflow-y-auto max-h-[calc(90vh-120px)]">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-manrope font-medium text-primary mb-2">Nome Completo</label>
+                  <label className="block text-sm font-manrope font-medium text-gray-900 dark:text-white mb-2">Nome Completo</label>
                   <input
                     type="text"
                     required
@@ -458,7 +458,7 @@ export default function ClientsManagement() {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-manrope font-medium text-primary mb-2">Telefone</label>
+                  <label className="block text-sm font-manrope font-medium text-gray-900 dark:text-white mb-2">Telefone</label>
                   <input
                     type="tel"
                     required
@@ -470,7 +470,7 @@ export default function ClientsManagement() {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-manrope font-medium text-primary mb-2">E-mail</label>
+                  <label className="block text-sm font-manrope font-medium text-gray-900 dark:text-white mb-2">E-mail</label>
                   <input
                     type="email"
                     required
@@ -482,7 +482,7 @@ export default function ClientsManagement() {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-manrope font-medium text-primary mb-2">Data de Nascimento</label>
+                  <label className="block text-sm font-manrope font-medium text-gray-900 dark:text-white mb-2">Data de Nascimento</label>
                   <input
                     type="date"
                     value={clientForm.birthDate}
@@ -492,7 +492,7 @@ export default function ClientsManagement() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-manrope font-medium text-primary mb-2">Status</label>
+                  <label className="block text-sm font-manrope font-medium text-gray-900 dark:text-white mb-2">Status</label>
                   <select
                     value={clientForm.status}
                     onChange={(e) => setClientForm({...clientForm, status: e.target.value})}
@@ -505,7 +505,7 @@ export default function ClientsManagement() {
               </div>
               
               <div>
-                <label className="block text-sm font-manrope font-medium text-primary mb-2">Endereço Completo</label>
+                <label className="block text-sm font-manrope font-medium text-gray-900 dark:text-white mb-2">Endereço Completo</label>
                 <input
                   type="text"
                   required
@@ -517,7 +517,7 @@ export default function ClientsManagement() {
               </div>
               
               <div>
-                <label className="block text-sm font-manrope font-medium text-primary mb-2">Preferências Alimentares</label>
+                <label className="block text-sm font-manrope font-medium text-gray-900 dark:text-white mb-2">Preferências Alimentares</label>
                 <textarea
                   value={clientForm.preferences}
                   onChange={(e) => setClientForm({...clientForm, preferences: e.target.value})}
@@ -567,36 +567,36 @@ export default function ClientsManagement() {
             <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(90vh-120px)]">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-manrope font-medium text-primary mb-2">Nome Completo</label>
-                  <div className="px-4 py-3 bg-adaptive border border-adaptive rounded-xl font-manrope text-primary">
+                  <label className="block text-sm font-manrope font-medium text-gray-900 dark:text-white mb-2">Nome Completo</label>
+                  <div className="px-4 py-3 bg-adaptive border border-adaptive rounded-xl font-manrope text-gray-900 dark:text-white">
                     {selectedClient.name}
                   </div>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-manrope font-medium text-primary mb-2">Telefone</label>
-                  <div className="px-4 py-3 bg-adaptive border border-adaptive rounded-xl font-manrope text-primary">
+                  <label className="block text-sm font-manrope font-medium text-gray-900 dark:text-white mb-2">Telefone</label>
+                  <div className="px-4 py-3 bg-adaptive border border-adaptive rounded-xl font-manrope text-gray-900 dark:text-white">
                     {selectedClient.phone}
                   </div>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-manrope font-medium text-primary mb-2">E-mail</label>
-                  <div className="px-4 py-3 bg-adaptive border border-adaptive rounded-xl font-manrope text-primary">
+                  <label className="block text-sm font-manrope font-medium text-gray-900 dark:text-white mb-2">E-mail</label>
+                  <div className="px-4 py-3 bg-adaptive border border-adaptive rounded-xl font-manrope text-gray-900 dark:text-white">
                     {selectedClient.email}
                   </div>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-manrope font-medium text-primary mb-2">Data de Nascimento</label>
-                  <div className="px-4 py-3 bg-adaptive border border-adaptive rounded-xl font-manrope text-primary">
+                  <label className="block text-sm font-manrope font-medium text-gray-900 dark:text-white mb-2">Data de Nascimento</label>
+                  <div className="px-4 py-3 bg-adaptive border border-adaptive rounded-xl font-manrope text-gray-900 dark:text-white">
                     {selectedClient.birthDate ? new Date(selectedClient.birthDate).toLocaleDateString('pt-BR') : 'Não informado'}
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-manrope font-medium text-primary mb-2">Status</label>
-                  <div className="px-4 py-3 bg-adaptive border border-adaptive rounded-xl font-manrope text-primary">
+                  <label className="block text-sm font-manrope font-medium text-gray-900 dark:text-white mb-2">Status</label>
+                  <div className="px-4 py-3 bg-adaptive border border-adaptive rounded-xl font-manrope text-gray-900 dark:text-white">
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                       selectedClient.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
                     }`}>
@@ -606,23 +606,23 @@ export default function ClientsManagement() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-manrope font-medium text-primary mb-2">Data de Cadastro</label>
-                  <div className="px-4 py-3 bg-adaptive border border-adaptive rounded-xl font-manrope text-primary">
+                  <label className="block text-sm font-manrope font-medium text-gray-900 dark:text-white mb-2">Data de Cadastro</label>
+                  <div className="px-4 py-3 bg-adaptive border border-adaptive rounded-xl font-manrope text-gray-900 dark:text-white">
                     {selectedClient.joinDate ? new Date(selectedClient.joinDate).toLocaleDateString('pt-BR') : 'Não informado'}
                   </div>
                 </div>
               </div>
               
               <div>
-                <label className="block text-sm font-manrope font-medium text-primary mb-2">Endereço</label>
-                <div className="px-4 py-3 bg-adaptive border border-adaptive rounded-xl font-manrope text-primary">
+                <label className="block text-sm font-manrope font-medium text-gray-900 dark:text-white mb-2">Endereço</label>
+                <div className="px-4 py-3 bg-adaptive border border-adaptive rounded-xl font-manrope text-gray-900 dark:text-white">
                   {selectedClient.address || 'Não informado'}
                 </div>
               </div>
               
               <div>
-                <label className="block text-sm font-manrope font-medium text-primary mb-2">Preferências Alimentares</label>
-                <div className="px-4 py-3 bg-adaptive border border-adaptive rounded-xl font-manrope text-primary">
+                <label className="block text-sm font-manrope font-medium text-gray-900 dark:text-white mb-2">Preferências Alimentares</label>
+                <div className="px-4 py-3 bg-adaptive border border-adaptive rounded-xl font-manrope text-gray-900 dark:text-white">
                   {selectedClient.preferences || 'Nenhuma preferência registrada'}
                 </div>
               </div>
@@ -630,17 +630,17 @@ export default function ClientsManagement() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-adaptive">
                 <div className="text-center">
                   <div className="text-2xl font-manrope font-bold text-blue-600 dark:text-blue-400">{selectedClient.orders}</div>
-                  <div className="text-sm text-secondary">Total de Pedidos</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-300">Total de Pedidos</div>
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-manrope font-bold text-green-600 dark:text-green-400">
                     R$ {selectedClient.total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                   </div>
-                  <div className="text-sm text-secondary">Total Gasto</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-300">Total Gasto</div>
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-manrope font-bold text-yellow-600 dark:text-yellow-400">{selectedClient.rating}</div>
-                  <div className="text-sm text-secondary">Avaliação</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-300">Avaliação</div>
                 </div>
               </div>
               
@@ -676,7 +676,7 @@ export default function ClientsManagement() {
             <form onSubmit={handleUpdateClient} className="p-6 space-y-6 overflow-y-auto max-h-[calc(90vh-120px)]">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-manrope font-medium text-primary mb-2">Nome Completo</label>
+                  <label className="block text-sm font-manrope font-medium text-gray-900 dark:text-white mb-2">Nome Completo</label>
                   <input
                     type="text"
                     required
@@ -688,7 +688,7 @@ export default function ClientsManagement() {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-manrope font-medium text-primary mb-2">Telefone</label>
+                  <label className="block text-sm font-manrope font-medium text-gray-900 dark:text-white mb-2">Telefone</label>
                   <input
                     type="tel"
                     required
@@ -700,7 +700,7 @@ export default function ClientsManagement() {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-manrope font-medium text-primary mb-2">E-mail</label>
+                  <label className="block text-sm font-manrope font-medium text-gray-900 dark:text-white mb-2">E-mail</label>
                   <input
                     type="email"
                     required
@@ -712,7 +712,7 @@ export default function ClientsManagement() {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-manrope font-medium text-primary mb-2">Data de Nascimento</label>
+                  <label className="block text-sm font-manrope font-medium text-gray-900 dark:text-white mb-2">Data de Nascimento</label>
                   <input
                     type="date"
                     value={clientForm.birthDate}
@@ -722,7 +722,7 @@ export default function ClientsManagement() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-manrope font-medium text-primary mb-2">Status</label>
+                  <label className="block text-sm font-manrope font-medium text-gray-900 dark:text-white mb-2">Status</label>
                   <select
                     value={clientForm.status}
                     onChange={(e) => setClientForm({...clientForm, status: e.target.value})}
@@ -735,7 +735,7 @@ export default function ClientsManagement() {
               </div>
               
               <div>
-                <label className="block text-sm font-manrope font-medium text-primary mb-2">Endereço Completo</label>
+                <label className="block text-sm font-manrope font-medium text-gray-900 dark:text-white mb-2">Endereço Completo</label>
                 <input
                   type="text"
                   required
@@ -747,7 +747,7 @@ export default function ClientsManagement() {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-primary mb-2">Preferências Alimentares</label>
+                <label className="block text-sm font-manrope font-medium text-gray-900 dark:text-white mb-2">Preferências Alimentares</label>
                 <textarea
                   value={clientForm.preferences}
                   onChange={(e) => setClientForm({...clientForm, preferences: e.target.value})}
@@ -794,13 +794,13 @@ export default function ClientsManagement() {
                 <div className="w-16 h-16 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Trash2 className="w-8 h-8 text-red-600 dark:text-red-400" />
                 </div>
-                <h4 className="text-lg font-manrope font-semibold text-primary mb-2">
+                <h4 className="text-lg font-manrope font-semibold text-gray-900 dark:text-white mb-2">
                   Excluir Cliente
                 </h4>
-                <p className="text-secondary">
+                <p className="text-gray-600 dark:text-gray-300">
                   Tem certeza que deseja excluir <strong>{selectedClient.name}</strong>?
                 </p>
-                <p className="text-sm text-muted mt-2">
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
                   Esta ação não pode ser desfeita e removerá todos os dados do cliente.
                 </p>
               </div>

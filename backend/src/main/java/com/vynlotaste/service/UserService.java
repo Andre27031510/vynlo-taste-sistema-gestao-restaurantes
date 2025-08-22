@@ -5,10 +5,13 @@ import com.vynlotaste.entity.User;
 import com.vynlotaste.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -18,6 +21,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
+    @CacheEvict(value = "users", allEntries = true)
     public User createUserFromFirebase(String email, String name) {
         log.info("Criando usuário Firebase: email={}, name={}", email, name);
         
@@ -38,6 +42,7 @@ public class UserService {
     }
 
     @Transactional
+    @CacheEvict(value = "users", allEntries = true)
     public User createUserFromRegistration(UserRegistrationDto registrationDto) {
         log.info("Criando usuário por registro: email={}, username={}", 
                 registrationDto.getEmail(), registrationDto.getUsername());
@@ -61,11 +66,20 @@ public class UserService {
         return savedUser;
     }
 
+    @Cacheable(value = "users", key = "'email:' + #email")
     public boolean isEmailAvailable(String email) {
-        return !userRepository.findByEmail(email).isPresent();
+        Optional<User> user = userRepository.findByEmail(email);
+        return user.isEmpty();
     }
 
+    @Cacheable(value = "users", key = "'username:' + #username")
     public boolean isUsernameAvailable(String username) {
-        return !userRepository.findByUsername(username).isPresent();
+        Optional<User> user = userRepository.findByUsername(username);
+        return user.isEmpty();
+    }
+    
+    @Cacheable(value = "users", key = "'user:' + #email")
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }

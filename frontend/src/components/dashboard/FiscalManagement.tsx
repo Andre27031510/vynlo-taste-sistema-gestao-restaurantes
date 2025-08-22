@@ -482,11 +482,15 @@ export default function FiscalManagement() {
       }
 
       // Simular verificação de conectividade com webservices
-      const webservicesStatus = {
-        nfe: 'checking' as const,
-        nfce: 'checking' as const,
-        nfse: 'checking' as const
-      }
+              const webservicesStatus: {
+          nfe: 'error' | 'offline' | 'online' | 'unknown' | 'checking';
+          nfce: 'error' | 'offline' | 'online' | 'unknown' | 'checking';
+          nfse: 'error' | 'offline' | 'online' | 'unknown' | 'checking';
+        } = {
+          nfe: 'checking',
+          nfce: 'checking',
+          nfse: 'checking'
+        }
       
       setSefazStatus(prev => ({
         ...prev,
@@ -912,6 +916,7 @@ export default function FiscalManagement() {
   const statusConfig = {
     pending: { label: 'Pendente', color: 'bg-yellow-100 text-yellow-800', icon: Clock },
     issued: { label: 'Emitida', color: 'bg-green-100 text-green-800', icon: CheckCircle },
+    approved: { label: 'Aprovada', color: 'bg-green-100 text-green-800', icon: CheckCircle },
     cancelled: { label: 'Cancelada', color: 'bg-red-100 text-red-800', icon: AlertCircle },
     error: { label: 'Erro', color: 'bg-red-100 text-red-800', icon: AlertCircle },
     processing: { label: 'Processando', color: 'bg-blue-100 text-blue-800', icon: Zap },
@@ -1001,7 +1006,10 @@ export default function FiscalManagement() {
       barCode: generateAccessKey(),
       items: newNote.items.map(item => ({
         ...item,
-        total: item.quantity * item.unitPrice
+        total: item.quantity * item.unitPrice,
+        icms: 0,
+        pis: 0,
+        cofins: 0
       })),
       paymentMethods: newNote.paymentMethods.map(pm => ({
         ...pm,
@@ -1116,26 +1124,44 @@ export default function FiscalManagement() {
       const newNote: FiscalNote = {
         id: `nf-${Date.now()}`,
         noteNumber: `00000${fiscalNotes.length + 1}`,
+        accessKey: generateAccessKey(),
         orderId: sale.orderId,
         customerName: sale.customerName,
-        customerDocument: sale.customerDocument,
         documentType: sale.documentType,
         total: sale.total,
-        items: sale.items,
+        items: sale.items.map(item => ({
+          ...item,
+          total: item.quantity * item.unitPrice,
+          icms: 0,
+          pis: 0,
+          cofins: 0
+        })),
         amountReceived: sale.total,
         change: 0,
         status: 'pending',
         noteType: sale.documentType === 'cnpj' ? 'nfe' : 'nfce',
         issuedAt: new Date(),
         createdAt: new Date(),
-        updatedAt: new Date(),
-        sefazAuthorization: '',
-        sefazProtocol: '',
-        cancellationReason: '',
-        contingencyReason: '',
-        observations: `Nota criada automaticamente da venda ${sale.orderId}`,
-        seller: sale.seller,
-        paymentMethod: sale.paymentMethod
+        expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        qrCode: generateQRCode(`NF${String(fiscalNotes.length + 1).padStart(3, '0')}`, sale.total),
+        barCode: generateAccessKey(),
+        document: sale.customerDocument,
+        address: {
+          street: '',
+          number: '',
+          complement: '',
+          neighborhood: '',
+          city: '',
+          state: '',
+          zipCode: ''
+        },
+        subtotal: sale.total * 0.95,
+        taxAmount: sale.total * 0.05,
+        discountAmount: 0,
+        paymentMethods: [{
+          method: 'pix' as PaymentMethod,
+          amount: sale.total
+        }]
       }
       
       // Adicionar à lista de notas fiscais
@@ -1522,12 +1548,7 @@ export default function FiscalManagement() {
                       <div>
                         <div className="text-sm font-medium text-gray-900">#{note.noteNumber}</div>
                         <div className="text-sm text-gray-500">{note.orderId}</div>
-                        {note.observations && note.observations.includes('venda') && (
-                          <div className="text-xs text-blue-600 font-medium flex items-center space-x-1">
-                            <span>🔄</span>
-                            <span>Integrado da venda</span>
-                          </div>
-                        )}
+
                         {note.accessKey && (
                           <div className="text-xs text-gray-400 font-mono">
                             {note.accessKey.substring(0, 8)}...
@@ -1631,7 +1652,7 @@ export default function FiscalManagement() {
                             
                             {/* Enviar Email */}
                             <button
-                              onClick={() => sendByEmail(note)}
+                              onClick={() => sendByEmail(note, note.email || '')}
                               className="text-blue-600 hover:text-blue-700 p-2 rounded-lg hover:bg-blue-50 transition-colors duration-200"
                               title="Enviar Email"
                             >
@@ -2740,7 +2761,7 @@ export default function FiscalManagement() {
                     </h4>
                     <div className="space-y-4">
                       <button
-                        onClick={() => generateReport('emission_summary')}
+                        onClick={() => generateReport('daily')}
                         className="w-full p-5 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl hover:bg-blue-100 transition-all duration-200 text-left group"
                       >
                         <div className="flex items-center justify-between">
@@ -2753,7 +2774,7 @@ export default function FiscalManagement() {
                       </button>
                       
                       <button
-                        onClick={() => generateReport('emission_by_type')}
+                        onClick={() => generateReport('weekly')}
                         className="w-full p-5 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl hover:bg-blue-100 transition-all duration-200 text-left group"
                       >
                         <div className="flex items-center justify-between">
@@ -2766,7 +2787,7 @@ export default function FiscalManagement() {
                       </button>
                       
                       <button
-                        onClick={() => generateReport('emission_by_status')}
+                        onClick={() => generateReport('monthly')}
                         className="w-full p-5 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl hover:bg-blue-100 transition-all duration-200 text-left group"
                       >
                         <div className="flex items-center justify-between">
@@ -2787,7 +2808,7 @@ export default function FiscalManagement() {
                     </h4>
                     <div className="space-y-4">
                       <button
-                        onClick={() => generateReport('financial_summary')}
+                        onClick={() => generateReport('daily')}
                         className="w-full p-5 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl hover:bg-green-100 transition-all duration-200 text-left group"
                       >
                         <div className="flex items-center justify-between">
@@ -2800,7 +2821,7 @@ export default function FiscalManagement() {
                       </button>
                       
                       <button
-                        onClick={() => generateReport('tax_analysis')}
+                        onClick={() => generateReport('weekly')}
                         className="w-full p-5 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl hover:bg-green-100 transition-all duration-200 text-left group"
                       >
                         <div className="flex items-center justify-between">
@@ -2813,7 +2834,7 @@ export default function FiscalManagement() {
                       </button>
                       
                       <button
-                        onClick={() => generateReport('customer_analysis')}
+                        onClick={() => generateReport('monthly')}
                         className="w-full p-5 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl hover:bg-green-100 transition-all duration-200 text-left group"
                       >
                         <div className="flex items-center justify-between">
@@ -2834,7 +2855,7 @@ export default function FiscalManagement() {
                     </h4>
                     <div className="space-y-4">
                       <button
-                        onClick={() => generateReport('audit_trail')}
+                        onClick={() => generateReport('custom')}
                         className="w-full p-5 bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200 rounded-xl hover:bg-orange-100 transition-all duration-200 text-left group"
                       >
                         <div className="flex items-center justify-between">
@@ -2847,7 +2868,7 @@ export default function FiscalManagement() {
                       </button>
                       
                       <button
-                        onClick={() => generateReport('error_log')}
+                        onClick={() => generateReport('custom')}
                         className="w-full p-5 bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200 rounded-xl hover:bg-orange-100 transition-all duration-200 text-left group"
                       >
                         <div className="flex items-center justify-between">

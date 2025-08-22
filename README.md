@@ -31,7 +31,7 @@ O **Vynlo Taste** é um sistema empresarial completo para gestão de delivery e 
 ## 🚀 Início Rápido
 
 ### **Pré-requisitos**
-- Node.js 18+ 
+- Node.js 18+
 - Java 17
 - Docker Desktop
 - PostgreSQL 15

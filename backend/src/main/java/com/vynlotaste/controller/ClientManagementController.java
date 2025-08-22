@@ -131,8 +131,8 @@ public class ClientManagementController {
         }
     }
 
-    @GetMapping("/permissions/available")
-    public ResponseEntity<Map<String, List<String>>> getAvailablePermissions() {
+    @GetMapping("/client-permissions/available")
+    public ResponseEntity<Map<String, List<String>>> getAvailableClientPermissions() {
         Map<String, List<String>> permissionGroups = new HashMap<>();
         
         permissionGroups.put("Produtos", Arrays.asList("manage_products", "view_products"));

@@ -68,21 +68,21 @@ export default function SpecializedSolutions() {
       {/* Active Solution Details */}
       <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
         <div className="flex items-center space-x-4 mb-6">
-          <div className={`w-16 h-16 bg-gradient-to-r ${solutions[activeSolution].color} rounded-2xl flex items-center justify-center`}>
+          <div className={`w-16 h-16 bg-gradient-to-r ${(solutions as any)[activeSolution].color} rounded-2xl flex items-center justify-center`}>
             {(() => {
-              const IconComponent = solutions[activeSolution].icon
+              const IconComponent = (solutions as any)[activeSolution].icon
               return <IconComponent className="w-8 h-8 text-white" />
             })()}
           </div>
           <div>
-            <h2 className="text-2xl font-manrope font-bold text-gray-900">{solutions[activeSolution].title}</h2>
+            <h2 className="text-2xl font-manrope font-bold text-gray-900">{(solutions as any)[activeSolution].title}</h2>
             <p className="text-gray-600 font-manrope">Configuração otimizada para seu negócio</p>
           </div>
         </div>
 
         {/* Features */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {solutions[activeSolution].features.map((feature, index) => (
+          {(solutions as any)[activeSolution].features.map((feature: string, index: number) => (
             <div key={index} className="p-4 bg-gray-50 rounded-lg">
               <div className="flex items-center space-x-2 mb-2">
                 <Star className="w-4 h-4 text-yellow-500" />
@@ -126,8 +126,8 @@ export default function SpecializedSolutions() {
 
         {/* Apply Configuration */}
         <div className="mt-8 text-center">
-          <button className={`bg-gradient-to-r ${solutions[activeSolution].color} text-white px-8 py-3 rounded-xl hover:scale-105 transition-all duration-300 font-manrope font-semibold`}>
-            Aplicar Configuração {solutions[activeSolution].title}
+          <button className={`bg-gradient-to-r ${(solutions as any)[activeSolution].color} text-white px-8 py-3 rounded-xl hover:scale-105 transition-all duration-300 font-manrope font-semibold`}>
+            Aplicar Configuração {(solutions as any)[activeSolution].title}
           </button>
         </div>
       </div>

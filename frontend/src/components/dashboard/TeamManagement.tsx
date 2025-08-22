@@ -210,8 +210,8 @@ export default function TeamManagement() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-manrope font-bold text-gray-900">Gestão de Equipe</h1>
-          <p className="text-gray-600 font-manrope">Controle de acesso, turnos e comunicação interna</p>
+          <h1 className="text-3xl font-manrope font-bold text-gray-900 dark:text-white">Gestão de Equipe</h1>
+          <p className="text-gray-600 dark:text-gray-300 font-manrope">Controle de acesso, turnos e comunicação interna</p>
         </div>
         <button 
           onClick={() => setShowNewEmployeeModal(true)}
@@ -224,60 +224,60 @@ export default function TeamManagement() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-              <Users className="w-6 h-6 text-blue-600" />
+            <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/20 rounded-xl flex items-center justify-center">
+              <Users className="w-6 h-6 text-blue-600 dark:text-blue-400" />
             </div>
-            <span className="text-blue-600 text-sm font-manrope font-medium">12 total</span>
+            <span className="text-blue-600 dark:text-blue-400 text-sm font-manrope font-medium">12 total</span>
           </div>
-          <h3 className="text-2xl font-manrope font-bold text-gray-900 mb-1">8</h3>
-          <p className="text-gray-600 font-manrope text-sm">Online Agora</p>
+          <h3 className="text-2xl font-manrope font-bold text-gray-900 dark:text-white mb-1">8</h3>
+          <p className="text-gray-600 dark:text-gray-300 font-manrope text-sm">Online Agora</p>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-              <Clock className="w-6 h-6 text-green-600" />
+            <div className="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-xl flex items-center justify-center">
+              <Clock className="w-6 h-6 text-green-600 dark:text-green-400" />
             </div>
-            <span className="text-green-600 text-sm font-manrope font-medium">98%</span>
+            <span className="text-green-600 dark:text-green-400 text-sm font-manrope font-medium">98%</span>
           </div>
-          <h3 className="text-2xl font-manrope font-bold text-gray-900 mb-1">7h 45m</h3>
-          <p className="text-gray-600 font-manrope text-sm">Média Diária</p>
+          <h3 className="text-2xl font-manrope font-bold text-gray-900 dark:text-white mb-1">7h 45m</h3>
+          <p className="text-gray-600 dark:text-gray-300 font-manrope text-sm">Média Diária</p>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
-              <Shield className="w-6 h-6 text-purple-600" />
+            <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/20 rounded-xl flex items-center justify-center">
+              <Shield className="w-6 h-6 text-purple-600 dark:text-purple-400" />
             </div>
-            <span className="text-purple-600 text-sm font-manrope font-medium">5 níveis</span>
+            <span className="text-purple-600 dark:text-purple-400 text-sm font-manrope font-medium">5 níveis</span>
           </div>
-          <h3 className="text-2xl font-manrope font-bold text-gray-900 mb-1">Seguro</h3>
-          <p className="text-gray-600 font-manrope text-sm">Controle Acesso</p>
+          <h3 className="text-2xl font-manrope font-bold text-gray-900 dark:text-white mb-1">Seguro</h3>
+          <p className="text-gray-600 dark:text-gray-300 font-manrope text-sm">Controle Acesso</p>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
-              <MessageSquare className="w-6 h-6 text-yellow-600" />
+            <div className="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/20 rounded-xl flex items-center justify-center">
+              <MessageSquare className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
             </div>
-            <span className="text-yellow-600 text-sm font-manrope font-medium">24 hoje</span>
+            <span className="text-yellow-600 dark:text-yellow-400 text-sm font-manrope font-medium">24 hoje</span>
           </div>
-          <h3 className="text-2xl font-manrope font-bold text-gray-900 mb-1">156</h3>
-          <p className="text-gray-600 font-manrope text-sm">Mensagens</p>
+          <h3 className="text-2xl font-manrope font-bold text-gray-900 dark:text-white mb-1">156</h3>
+          <p className="text-gray-600 dark:text-gray-300 font-manrope text-sm">Mensagens</p>
         </div>
       </div>
 
       {/* Team List */}
-      <div className="bg-white rounded-2xl shadow-lg border border-gray-100">
-        <div className="p-6 border-b border-gray-100">
-          <h3 className="text-xl font-manrope font-bold text-gray-900">Equipe Ativa</h3>
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700">
+        <div className="p-6 border-b border-gray-100 dark:border-gray-700">
+          <h3 className="text-xl font-manrope font-bold text-gray-900 dark:text-white">Equipe Ativa</h3>
         </div>
         
-        <div className="divide-y divide-gray-100">
+        <div className="divide-y divide-gray-100 dark:divide-gray-700">
           {employees.map((employee) => (
-            <div key={employee.id} className="p-6 hover:bg-gray-50 transition-colors duration-200">
+            <div key={employee.id} className="p-6 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
@@ -293,7 +293,7 @@ export default function TeamManagement() {
                         employee.status === 'online' ? 'bg-green-400' : 'bg-gray-400'
                       }`}></span>
                     </div>
-                    <div className="flex items-center space-x-4 text-sm text-gray-600">
+                    <div className="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-300">
                       <span className="font-manrope">{employee.role}</span>
                       <span className="font-manrope">Turno: {employee.shift}</span>
                       <span className="font-manrope">Nível: {employee.permissions}</span>
@@ -345,14 +345,14 @@ export default function TeamManagement() {
       </div>
 
       {/* Communication Panel */}
-      <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-        <h3 className="text-xl font-manrope font-bold text-gray-900 mb-4">Comunicação Interna</h3>
+      <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
+        <h3 className="text-xl font-manrope font-bold text-gray-900 dark:text-white mb-4">Comunicação Interna</h3>
         <div className="space-y-3">
-          <div className="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg">
-            <MessageSquare className="w-5 h-5 text-blue-600" />
+          <div className="flex items-center space-x-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+            <MessageSquare className="w-5 h-5 text-blue-600 dark:text-blue-400" />
             <div>
-              <p className="font-manrope font-medium text-gray-900">Nova mensagem da cozinha</p>
-              <p className="text-sm text-gray-600 font-manrope">Pedido #1234 pronto para entrega</p>
+              <p className="font-manrope font-medium text-gray-900 dark:text-white">Nova mensagem da cozinha</p>
+              <p className="text-sm text-gray-600 dark:text-gray-300 font-manrope">Pedido #1234 pronto para entrega</p>
             </div>
           </div>
         </div>
@@ -376,7 +376,7 @@ export default function TeamManagement() {
               <form onSubmit={handleAddEmployee} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-primary mb-2">Nome Completo</label>
+                    <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">Nome Completo</label>
                     <input
                       type="text"
                       value={newEmployeeForm.name}
@@ -386,7 +386,7 @@ export default function TeamManagement() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-primary mb-2">Cargo</label>
+                    <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">Cargo</label>
                     <input
                       type="text"
                       value={newEmployeeForm.role}
@@ -399,7 +399,7 @@ export default function TeamManagement() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-primary mb-2">Email</label>
+                    <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">Email</label>
                     <input
                       type="email"
                       value={newEmployeeForm.email}
@@ -409,7 +409,7 @@ export default function TeamManagement() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-primary mb-2">Telefone</label>
+                    <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">Telefone</label>
                     <input
                       type="tel"
                       value={newEmployeeForm.phone}
@@ -422,7 +422,7 @@ export default function TeamManagement() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-primary mb-2">Turno</label>
+                    <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">Turno</label>
                     <select
                       value={newEmployeeForm.shift}
                       onChange={(e) => setNewEmployeeForm(prev => ({ ...prev, shift: e.target.value }))}
@@ -434,7 +434,7 @@ export default function TeamManagement() {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-primary mb-2">Permissões</label>
+                    <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">Permissões</label>
                     <select
                       value={newEmployeeForm.permissions}
                       onChange={(e) => setNewEmployeeForm(prev => ({ ...prev, permissions: e.target.value }))}
@@ -450,7 +450,7 @@ export default function TeamManagement() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-primary mb-2">Departamento</label>
+                    <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">Departamento</label>
                     <input
                       type="text"
                       value={newEmployeeForm.department}
@@ -460,7 +460,7 @@ export default function TeamManagement() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-primary mb-2">Salário</label>
+                    <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">Salário</label>
                     <input
                       type="number"
                       value={newEmployeeForm.salary}
@@ -473,7 +473,7 @@ export default function TeamManagement() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-primary mb-2">Endereço</label>
+                  <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">Endereço</label>
                   <input
                     type="text"
                     value={newEmployeeForm.address}
@@ -534,24 +534,24 @@ export default function TeamManagement() {
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-primary mb-2">Horas de Trabalho</label>
+                  <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">Horas de Trabalho</label>
                   <input
                     type="number"
                     value={settingsForm.workHours}
                     onChange={(e) => setSettingsForm(prev => ({ ...prev, workHours: e.target.value }))}
-                    className="input-primary w-full px-4 py-3 rounded-lg"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     min="1"
                     max="24"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-primary mb-2">Tempo de Pausa (horas)</label>
+                  <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">Tempo de Pausa (horas)</label>
                   <input
                     type="number"
                     value={settingsForm.breakTime}
                     onChange={(e) => setSettingsForm(prev => ({ ...prev, breakTime: e.target.value }))}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     min="0"
                     max="4"
                   />
@@ -565,7 +565,7 @@ export default function TeamManagement() {
                       onChange={(e) => setSettingsForm(prev => ({ ...prev, overtimeAllowed: e.target.checked }))}
                       className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                     />
-                    <span className="text-sm text-gray-700">Permitir horas extras</span>
+                    <span className="text-sm text-gray-900 dark:text-white">Permitir horas extras</span>
                   </label>
 
                   <label className="flex items-center space-x-3">
@@ -575,7 +575,7 @@ export default function TeamManagement() {
                       onChange={(e) => setSettingsForm(prev => ({ ...prev, autoSchedule: e.target.checked }))}
                       className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                     />
-                    <span className="text-sm text-gray-700">Agendamento automático</span>
+                    <span className="text-sm text-gray-900 dark:text-white">Agendamento automático</span>
                   </label>
 
                   <label className="flex items-center space-x-3">
@@ -585,12 +585,12 @@ export default function TeamManagement() {
                       onChange={(e) => setSettingsForm(prev => ({ ...prev, notifications: e.target.checked }))}
                       className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                     />
-                    <span className="text-sm text-gray-700">Notificações ativas</span>
+                    <span className="text-sm text-gray-900 dark:text-white">Notificações ativas</span>
                   </label>
                 </div>
               </div>
 
-              <div className="flex items-center justify-end space-x-3 mt-6 pt-6 border-t border-gray-200">
+              <div className="flex items-center justify-end space-x-3 mt-6 pt-6 border-t border-gray-200 dark:border-gray-600">
                 <button
                   onClick={() => setShowSettingsModal(false)}
                   className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors duration-200"
@@ -623,10 +623,10 @@ export default function TeamManagement() {
       {/* Modal para Enviar Mensagem */}
       {showMessageModal && selectedEmployee && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-manrope font-bold text-gray-900">
+                <h3 className="text-xl font-manrope font-bold text-gray-900 dark:text-white">
                   Enviar Mensagem
                 </h3>
                 <button
@@ -639,21 +639,21 @@ export default function TeamManagement() {
 
               <form onSubmit={handleSendMessage} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Para</label>
+                  <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">Para</label>
                   <input
                     type="text"
                     value={messageRecipient}
                     disabled
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-600"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-300"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Mensagem</label>
+                  <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">Mensagem</label>
                   <textarea
                     value={messageText}
                     onChange={(e) => setMessageText(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     rows={4}
                     placeholder="Digite sua mensagem..."
                     required
@@ -695,10 +695,10 @@ export default function TeamManagement() {
       {/* Modal para Detalhes do Funcionário */}
       {showEmployeeDetails && selectedEmployee && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-2xl font-manrope font-bold text-gray-900">
+                <h3 className="text-2xl font-manrope font-bold text-gray-900 dark:text-white">
                   Detalhes do Funcionário
                 </h3>
                 <button
@@ -713,17 +713,17 @@ export default function TeamManagement() {
                 <div className="flex items-center space-x-4">
                   <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
                     <span className="text-white font-manrope font-bold text-2xl">
-                      {selectedEmployee.name.split(' ').map(n => n[0]).join('')}
+                      {selectedEmployee.name.split(' ').map((n: string) => n[0]).join('')}
                     </span>
                   </div>
                   <div>
-                    <h4 className="text-2xl font-manrope font-bold text-gray-900">{selectedEmployee.name}</h4>
-                    <p className="text-lg text-gray-600">{selectedEmployee.role}</p>
+                    <h4 className="text-2xl font-manrope font-bold text-gray-900 dark:text-white">{selectedEmployee.name}</h4>
+                    <p className="text-lg text-gray-600 dark:text-gray-300">{selectedEmployee.role}</p>
                     <div className="flex items-center space-x-2 mt-2">
                       <span className={`w-3 h-3 rounded-full ${
                         selectedEmployee.status === 'online' ? 'bg-green-400' : 'bg-gray-400'
                       }`}></span>
-                      <span className="text-sm text-gray-600 capitalize">{selectedEmployee.status}</span>
+                      <span className="text-sm text-gray-600 dark:text-gray-300 capitalize">{selectedEmployee.status}</span>
                     </div>
                   </div>
                 </div>
@@ -732,44 +732,44 @@ export default function TeamManagement() {
                   <div className="space-y-4">
                     <div className="flex items-center space-x-3">
                       <Mail className="w-5 h-5 text-gray-400" />
-                      <span className="text-gray-700">{selectedEmployee.email}</span>
+                      <span className="text-gray-700 dark:text-gray-300">{selectedEmployee.email}</span>
                     </div>
                     <div className="flex items-center space-x-3">
                       <Phone className="w-5 h-5 text-gray-400" />
-                      <span className="text-gray-700">{selectedEmployee.phone}</span>
+                      <span className="text-gray-700 dark:text-gray-300">{selectedEmployee.phone}</span>
                     </div>
                     <div className="flex items-center space-x-3">
                       <MapPin className="w-5 h-5 text-gray-400" />
-                      <span className="text-gray-700">{selectedEmployee.address}</span>
+                      <span className="text-gray-700 dark:text-gray-300">{selectedEmployee.address}</span>
                     </div>
                   </div>
 
                   <div className="space-y-4">
                     <div className="flex items-center space-x-3">
                       <Clock className="w-5 h-5 text-gray-400" />
-                      <span className="text-gray-700">Turno: {selectedEmployee.shift}</span>
+                      <span className="text-gray-700 dark:text-gray-300">Turno: {selectedEmployee.shift}</span>
                     </div>
                     <div className="flex items-center space-x-3">
                       <Shield className="w-5 h-5 text-gray-400" />
-                      <span className="text-gray-700">Permissões: {selectedEmployee.permissions}</span>
+                      <span className="text-gray-700 dark:text-gray-300">Permissões: {selectedEmployee.permissions}</span>
                     </div>
                     <div className="flex items-center space-x-3">
                       <Calendar className="w-5 h-5 text-gray-400" />
-                      <span className="text-gray-700">Admissão: {selectedEmployee.joinDate}</span>
+                      <span className="text-gray-700 dark:text-gray-300">Admissão: {selectedEmployee.joinDate}</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <h5 className="font-semibold text-gray-900 mb-2">Informações Adicionais</h5>
+                <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+                  <h5 className="font-semibold text-gray-900 dark:text-white mb-2">Informações Adicionais</h5>
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
-                      <span className="text-gray-600">Departamento:</span>
-                      <span className="ml-2 text-gray-900">{selectedEmployee.department}</span>
+                      <span className="text-gray-600 dark:text-gray-400">Departamento:</span>
+                      <span className="ml-2 text-gray-900 dark:text-white">{selectedEmployee.department}</span>
                     </div>
                     <div>
-                      <span className="text-gray-600">Salário:</span>
-                      <span className="ml-2 text-gray-900">R$ {selectedEmployee.salary}</span>
+                      <span className="text-gray-600 dark:text-gray-400">Salário:</span>
+                      <span className="ml-2 text-gray-900 dark:text-white">R$ {selectedEmployee.salary}</span>
                     </div>
                   </div>
                 </div>
@@ -782,10 +782,10 @@ export default function TeamManagement() {
       {/* Modal para Editar Funcionário */}
       {showEditEmployeeModal && selectedEmployee && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-2xl font-manrope font-bold text-gray-900">
+                <h3 className="text-2xl font-manrope font-bold text-gray-900 dark:text-white">
                   Editar Funcionário - {selectedEmployee.name}
                 </h3>
                 <button
@@ -799,22 +799,22 @@ export default function TeamManagement() {
               <form onSubmit={handleSaveEditEmployee} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Nome Completo</label>
+                    <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">Nome Completo</label>
                     <input
                       type="text"
                       value={editEmployeeForm.name}
                       onChange={(e) => setEditEmployeeForm(prev => ({ ...prev, name: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Cargo</label>
+                    <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">Cargo</label>
                     <input
                       type="text"
                       value={editEmployeeForm.role}
                       onChange={(e) => setEditEmployeeForm(prev => ({ ...prev, role: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       required
                     />
                   </div>
@@ -822,22 +822,22 @@ export default function TeamManagement() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                    <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">Email</label>
                     <input
                       type="email"
                       value={editEmployeeForm.email}
                       onChange={(e) => setEditEmployeeForm(prev => ({ ...prev, email: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Telefone</label>
+                    <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">Telefone</label>
                     <input
                       type="tel"
                       value={editEmployeeForm.phone}
                       onChange={(e) => setEditEmployeeForm(prev => ({ ...prev, phone: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       required
                     />
                   </div>
@@ -845,11 +845,11 @@ export default function TeamManagement() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Turno</label>
+                    <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">Turno</label>
                     <select
                       value={editEmployeeForm.shift}
                       onChange={(e) => setEditEmployeeForm(prev => ({ ...prev, shift: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     >
                       <option value="Manhã">Manhã</option>
                       <option value="Tarde">Tarde</option>
@@ -857,11 +857,11 @@ export default function TeamManagement() {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Permissões</label>
+                    <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">Permissões</label>
                     <select
                       value={editEmployeeForm.permissions}
                       onChange={(e) => setEditEmployeeForm(prev => ({ ...prev, permissions: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     >
                       <option value="waiter">Garçom</option>
                       <option value="kitchen">Cozinha</option>
@@ -873,22 +873,22 @@ export default function TeamManagement() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Departamento</label>
+                    <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">Departamento</label>
                     <input
                       type="text"
                       value={editEmployeeForm.department}
                       onChange={(e) => setEditEmployeeForm(prev => ({ ...prev, department: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Salário</label>
+                    <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">Salário</label>
                     <input
                       type="number"
                       value={editEmployeeForm.salary}
                       onChange={(e) => setEditEmployeeForm(prev => ({ ...prev, salary: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       placeholder="0.00"
                       required
                     />
@@ -896,17 +896,17 @@ export default function TeamManagement() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Endereço</label>
+                  <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">Endereço</label>
                   <input
                     type="text"
                     value={editEmployeeForm.address}
                     onChange={(e) => setEditEmployeeForm(prev => ({ ...prev, address: e.target.value }))}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     required
                   />
                 </div>
 
-                <div className="flex items-center justify-end space-x-3 pt-6 border-t border-gray-200">
+                <div className="flex items-center justify-end space-x-3 pt-6 border-t border-gray-200 dark:border-gray-600">
                   <button
                     type="button"
                     onClick={() => setShowEditEmployeeModal(false)}

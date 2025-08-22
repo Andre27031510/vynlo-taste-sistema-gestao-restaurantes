@@ -4,7 +4,7 @@ interface UseLocalStorageOptions<T> {
   defaultValue: T
   serialize?: (value: T) => string
   deserialize?: (value: string) => T
-  expiration?: number // em milissegundos
+  expiration?: number
 }
 
 export function useLocalStorage<T>(
@@ -18,80 +18,52 @@ export function useLocalStorage<T>(
     expiration
   } = options
 
-  // Função para obter valor do localStorage com verificação de expiração
   const getStoredValue = useCallback((): T => {
     try {
       const item = window.localStorage.getItem(key)
       if (item === null) return defaultValue
-
       const parsed = deserialize(item)
-      
-      // Verificar se há timestamp de expiração
-      if (expiration && parsed.timestamp) {
+      if (expiration && (parsed as any).timestamp) {
         const now = Date.now()
-        if (now - parsed.timestamp > expiration) {
-          // Dados expirados, remover e retornar valor padrão
+        if (now - (parsed as any).timestamp > expiration) {
           window.localStorage.removeItem(key)
           return defaultValue
         }
-        // Retornar apenas os dados, sem o timestamp
-        return parsed.data
+        return (parsed as any).data
       }
-      
       return parsed
-    } catch (error) {
-      console.warn(`Erro ao ler localStorage key "${key}":`, error)
+    } catch {
       return defaultValue
     }
   }, [key, defaultValue, deserialize, expiration])
 
-  // Função para definir valor no localStorage com timestamp
-  const setStoredValue = useCallback((value: T) => {
+  const writeStoredValue = useCallback((value: T) => {
     try {
-      let valueToStore = value
-      
-      // Adicionar timestamp se houver expiração
-      if (expiration) {
-        valueToStore = {
-          data: value,
-          timestamp: Date.now()
-        } as any
-      }
-      
+      let valueToStore: any = value
+      if (expiration) valueToStore = { data: value, timestamp: Date.now() }
       window.localStorage.setItem(key, serialize(valueToStore))
-    } catch (error) {
-      console.warn(`Erro ao definir localStorage key "${key}":`, error)
-    }
+    } catch {}
   }, [key, serialize, expiration])
 
-  // Estado local
   const [storedValue, setStoredValue] = useState<T>(getStoredValue)
 
-  // Função para atualizar valor
   const setValue = useCallback((value: T | ((val: T) => T)) => {
     try {
       const valueToStore = value instanceof Function ? value(storedValue) : value
+      writeStoredValue(valueToStore)
       setStoredValue(valueToStore)
-      setStoredValue(valueToStore)
-    } catch (error) {
-      console.warn(`Erro ao definir valor para localStorage key "${key}":`, error)
-    }
-  }, [storedValue, setStoredValue])
+    } catch {}
+  }, [storedValue, writeStoredValue])
 
-  // Função para remover valor
   const removeValue = useCallback(() => {
     try {
       window.localStorage.removeItem(key)
       setStoredValue(defaultValue)
-    } catch (error) {
-      console.warn(`Erro ao remover localStorage key "${key}":`, error)
-    }
+    } catch {}
   }, [key, defaultValue])
 
-  // Função para limpar todos os dados expirados
   const clearExpired = useCallback(() => {
     if (!expiration) return
-    
     try {
       const keys = Object.keys(window.localStorage)
       keys.forEach(storageKey => {
@@ -99,89 +71,39 @@ export function useLocalStorage<T>(
           const item = window.localStorage.getItem(storageKey)
           if (item) {
             const parsed = deserialize(item)
-            if (parsed.timestamp && Date.now() - parsed.timestamp > expiration) {
+            if ((parsed as any).timestamp && Date.now() - (parsed as any).timestamp > expiration) {
               window.localStorage.removeItem(storageKey)
             }
           }
-        } catch (error) {
-          // Ignorar erros de parsing
-        }
+        } catch {}
       })
-    } catch (error) {
-      console.warn('Erro ao limpar dados expirados:', error)
-    }
+    } catch {}
   }, [expiration, deserialize])
 
-  // Efeito para sincronizar com mudanças no localStorage
   useEffect(() => {
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === key && e.newValue !== null) {
         try {
           const newValue = deserialize(e.newValue)
-          if (expiration && newValue.timestamp) {
-            if (Date.now() - newValue.timestamp <= expiration) {
-              setStoredValue(newValue.data)
+          if (expiration && (newValue as any).timestamp) {
+            if (Date.now() - (newValue as any).timestamp <= expiration) {
+              setStoredValue((newValue as any).data)
             }
           } else {
             setStoredValue(newValue)
           }
-        } catch (error) {
-          console.warn(`Erro ao processar mudança no localStorage key "${key}":`, error)
-        }
+        } catch {}
       }
     }
-
     window.addEventListener('storage', handleStorageChange)
     return () => window.removeEventListener('storage', handleStorageChange)
   }, [key, deserialize, expiration])
 
-  // Limpar dados expirados periodicamente
   useEffect(() => {
     if (!expiration) return
-    
-    const interval = setInterval(clearExpired, 60000) // Verificar a cada minuto
+    const interval = setInterval(clearExpired, 60000)
     return () => clearInterval(interval)
   }, [clearExpired, expiration])
 
-  return {
-    value: storedValue,
-    setValue,
-    removeValue,
-    clearExpired
-  }
-}
-
-// Hook especializado para cache de dados da API
-export function useApiCache<T>(
-  key: string,
-  defaultValue: T,
-  expirationMinutes: number = 5
-) {
-  return useLocalStorage(key, {
-    defaultValue,
-    expiration: expirationMinutes * 60 * 1000
-  })
-}
-
-// Hook para cache de formulários
-export function useFormCache<T>(
-  key: string,
-  defaultValue: T,
-  expirationMinutes: number = 30
-) {
-  return useLocalStorage(key, {
-    defaultValue,
-    expiration: expirationMinutes * 60 * 1000
-  })
-}
-
-// Hook para cache de preferências do usuário
-export function useUserPreferences<T>(
-  key: string,
-  defaultValue: T
-) {
-  return useLocalStorage(key, {
-    defaultValue,
-    expiration: 24 * 60 * 60 * 1000 // 24 horas
-  })
+  return { value: storedValue, setValue, removeValue, clearExpired }
 }
