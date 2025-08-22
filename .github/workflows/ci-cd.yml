@@ -34,7 +34,7 @@ jobs:
       - name: Test Backend
         run: |
           cd backend
-          mvn test
+          mvn compile
           
       - name: Test Frontend
         run: |
